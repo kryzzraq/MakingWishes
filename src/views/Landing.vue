@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid class="landingHome pa-0">
-    <v-row>
-      <v-col cols="12" offset="10">
+  <v-container fluid class="landingHome pa-0 d-flex flex-column justify-space-between">
+    <div class="d-flex flex-column contain justify-space-around">
+      <div class=" align-self-end">
         <v-btn
           large
           color="primary"
@@ -11,10 +11,8 @@
         >
           Acceder a mi cuenta
         </v-btn>
-      </v-col>
-    </v-row>
-    <v-row no-gutters>
-      <v-col class="ml-16" cols="sm-12">
+      </div>
+      <div class="ml-16">
         <v-sheet
           color="rgb(255, 255, 255, 0.7)"
           class="pa-8 rounded-circle"
@@ -28,13 +26,11 @@
             max-width="120px"
           ></v-img>
         </v-sheet>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" class="mt-6"  offset="1">
+      </div>
+      <div class="d-flex justify-center pb-16">
         <v-sheet
           color="rgb(255,255,255,0.7)"
-          class="pa-5 rounded-lg"
+          class="pa-5 rounded-lg "
           max-width="55%"
           min-width="300px"
         >
@@ -42,24 +38,27 @@
             Organiza los regalos de tus eventos
           </div>
           <p class="text-justify body-1">
-            Making Wishes es una aplicación que busca facilitar el hacer
-            regalos a tus seres queridos. Podrás crear una lista de deseos o
-            incluso un grupo para organizar los regalos en tus eventos más
-            especiales.
+            Making Wishes es una aplicación que busca facilitar el hacer regalos
+            a tus seres queridos. Podrás crear una lista de deseos o incluso un
+            grupo para organizar los regalos en tus eventos más especiales.
           </p>
           <div class="text-center">
-            <v-btn x-large color="primary"  class="white--text"  elevation="2"  to="signin" >
+            <v-btn
+              x-large
+              color="primary"
+              class="white--text"
+              elevation="2"
+              to="signin"
+            >
               Crear una cuenta
             </v-btn>
           </div>
         </v-sheet>
-      </v-col>
-    </v-row>
-    <v-row justify="space-around" class="mt-16">
-      <v-col md="2">
-        <v-sheet
+      </div>
+      <div class="d-flex justify-space-around alig-self-end flex-wrap">
+         <v-sheet
           align="center"
-          class="text-center"
+          class="text-center mb-4"
           min-height="200px"
           max-width="200px"
           rounded="circle"
@@ -71,10 +70,9 @@
           >
           <div class="overline">Elige tus regalos</div>
         </v-sheet>
-      </v-col>
-      <v-col md="2">
-        <v-card
-          class="text-center"
+
+         <v-card
+          class="text-center mb-4"
           min-height="200px"
           max-width="200px"
           rounded="circle"
@@ -86,10 +84,8 @@
           >
           <div class="overline">Acierta siempre</div>
         </v-card>
-      </v-col>
-      <v-col md="2">
         <v-card
-          class="text-center"
+          class="text-center mb-4"
           min-height="200px"
           max-width="200px"
           rounded="circle"
@@ -106,9 +102,8 @@
             Conecta con tus amigos
           </div>
         </v-card>
-      </v-col>
-      
-    </v-row>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -122,8 +117,7 @@ export default {
     HelloWorld,
   },
   data() {
-    return {
-    }
+    return {};
   },
   mounted() {},
 };
@@ -135,9 +129,9 @@ html {
   margin: 0;
   height: 100%;
 }
-.landingHome{
+.landingHome {
   position: absolute;
-  top:0;
+  top: 0;
   background-image: url("../assets/img/present-bg.jpg");
   height: 100%;
   background-position: left;
@@ -145,8 +139,11 @@ html {
 .container {
   height: 100%;
 }
-.v-application{
+.v-application {
   height: 100%;
   min-height: 100%;
+}
+.contain{
+  height: 100%;
 }
 </style>
