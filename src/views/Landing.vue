@@ -12,7 +12,7 @@
           Acceder a mi cuenta
         </v-btn>
       </div>
-      <div class="ml-16">
+      <div class="ml-sm-16 ml-7 mb-16 mt-4">
         <v-sheet
           color="rgb(255, 255, 255, 0.7)"
           class="pa-8 rounded-circle"
@@ -58,7 +58,7 @@
       <div class="d-flex justify-space-around alig-self-end flex-wrap">
          <v-sheet
           align="center"
-          class="text-center mb-4"
+          class="text-center mb-8 mb-sm-4"
           min-height="200px"
           max-width="200px"
           rounded="circle"
@@ -72,7 +72,7 @@
         </v-sheet>
 
          <v-card
-          class="text-center mb-4"
+          class="text-center mb-8 mb-sm-4"
           min-height="200px"
           max-width="200px"
           rounded="circle"
@@ -127,14 +127,12 @@ export default {
 body,
 html {
   margin: 0;
-  height: 100%;
 }
 .landingHome {
-  position: absolute;
-  top: 0;
   background-image: url("../assets/img/present-bg.jpg");
-  height: 100%;
   background-position: left;
+  background-attachment: fixed;
+  
 }
 .container {
   height: 100%;
