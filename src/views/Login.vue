@@ -39,7 +39,8 @@
                     required
                   ></v-text-field>
                   
-                  <v-btn block small color="primary">Entrar</v-btn>
+                  <v-btn block small color="primary"
+                  @click="actLogin([user.email, user.password])">Entrar</v-btn>
                  <div class="text-center pa-2"><a class="black--text ">¿Has olvidado tu contraseña?</a></div>
                  </v-card-text>
                </v-layout>
@@ -52,6 +53,9 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+
+import {mapState} from 'vuex'
+import {mapActions} from 'vuex'
 import { required, email, minLength } from "vuelidate/lib/validators";
 
 export default {
@@ -69,6 +73,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'actLogin'
+    ])
   },
   validations: {
     user: {
