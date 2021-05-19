@@ -39,7 +39,7 @@
                     required
                   ></v-text-field>
                   
-                  <v-btn block small color="primary"
+                  <v-btn block small color="primary" :disabled="$v.$invalid"
                   @click="actLogin([user.email, user.password])">Entrar</v-btn>
                  <div class="text-center pa-2"><a class="black--text ">¿Has olvidado tu contraseña?</a></div>
                  </v-card-text>

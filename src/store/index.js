@@ -19,8 +19,7 @@ export default new Vuex.Store({
   },
   mutations: {
     async mutLogin(state,arr){
-      console.log(arr)
-      let response = await axios.get("https://localhost/API_making_wishes/public/index.php/hola",
+      let response = await axios.post("https://localhost/API_making_wishes/public/index.php/login",
       {
         "email": arr[0],
         "passwd": arr[1]
