@@ -4,6 +4,27 @@
         <v-layout align-center justify-center class="form">
            <v-card height="auto" width="400"   color="rgba(255, 255, 255, 0.7)">
              <v-container fill-height>
+                   <v-snackbar
+                      v-if="wrongCredentials"
+                      v-model="wrongCredentials"
+                      :timeout="5000"
+                      light
+                      top
+                      transition="fade-transition"
+                    >
+                      Credenciales erróneos.
+
+                      <template v-slot:action="{ attrs }">
+                        <v-btn
+                          color="primary"
+                          text
+                          v-bind="attrs"
+                          @click="wrongCredentials = false"
+                        >
+                          Cerrar
+                        </v-btn>
+                      </template>
+                  </v-snackbar>
                <v-layout align-center justify-center>
                  <v-card-text>
                    <router-link to="/">
@@ -30,17 +51,17 @@
                    <v-text-field
                    solo
                    dense
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show ? 'text' : 'password'"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
                     name="input-10-1"
                     hint="Al menos 8 caracteres"
-                    @click:append="show = !show"
+                    @click:append="showPassword = !showPassword"
                     v-model.trim="$v.user.password.$model"
                     required
                   ></v-text-field>
                   
                   <v-btn block small color="primary" :disabled="$v.$invalid"
-                  @click="actLogin([user.email, user.password])">Entrar</v-btn>
+                  @click="login(user.email, user.password)">Entrar</v-btn>
                  <div class="text-center pa-2"><a class="black--text ">¿Has olvidado tu contraseña?</a></div>
                  </v-card-text>
                </v-layout>
@@ -55,6 +76,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 
 import {mapState} from 'vuex'
+import axios from 'axios'
 import {mapActions} from 'vuex'
 import { required, email, minLength } from "vuelidate/lib/validators";
 
@@ -65,17 +87,39 @@ export default {
   }, 
   data () {
     return {
-      show: false,
+      showPassword: false,
        user: {
         email: '',
         password: ''
       },
+      wrongCredentials: false
     }
   },
   methods: {
     ...mapActions([
       'actLogin'
-    ])
+    ]),
+    async login(email, password){
+      try{
+        let response = await axios.post("https://localhost/API_making_wishes/public/index.php/login",
+        {
+          "email": email,
+          "passwd": password
+        })
+        if(response.data.email){
+          this.actLogin(response.data)
+          this.user.email = ''
+          this.user.password = ''
+        }else{
+          this.user.email = ''
+          this.user.password = ''
+          this.wrongCredentials = true
+          console.log(this)
+        }
+      }catch(err){
+        console.log(err)
+      }
+    }
   },
   validations: {
     user: {
