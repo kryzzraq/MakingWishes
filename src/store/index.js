@@ -7,12 +7,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
-   }
+
+    },
+    baseService: "http://localhost/API_making_wishes/public/index.php"
   },
   mutations: {
     mutLogin(state,obj){
       this.state.user = obj
-      console.log(this.state.user);
     }
   },
   actions: {

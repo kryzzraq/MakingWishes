@@ -56,6 +56,7 @@
                     name="input-10-1"
                     hint="Al menos 8 caracteres"
                     @click:append="showPassword = !showPassword"
+                    @keypress.enter="login(user.email, user.password)"
                     v-model.trim="$v.user.password.$model"
                     required
                   ></v-text-field>
@@ -95,26 +96,28 @@ export default {
       wrongCredentials: false
     }
   },
+  mounted () {
+    // console.log(this)
+  },
   methods: {
     ...mapActions([
       'actLogin'
     ]),
-    async login(email, password){
+    async login (email, password) {
       try{
-        let response = await axios.post("https://localhost/API_making_wishes/public/index.php/login",
+        let response = await axios.post (this.$store.state.baseService+"/login",
         {
           "email": email,
           "passwd": password
         })
         if(response.data.email){
           this.actLogin(response.data)
-          this.user.email = ''
-          this.user.password = ''
+          localStorage.setItem('token', response.data.token)
+          this.$router.push('home')
         }else{
           this.user.email = ''
           this.user.password = ''
           this.wrongCredentials = true
-          console.log(this)
         }
       }catch(err){
         console.log(err)

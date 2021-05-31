@@ -22,7 +22,19 @@ const routes = [
   {
     path: '/making-wishes',
     name: 'making-wishes',
-    component: () => import(/* webpackChunkName: "SignIn" */ '../views/Making-wishes.vue')
+    component: () => import(/* webpackChunkName: "SignIn" */ '../views/Making-wishes.vue'),
+    children: [
+      {
+        path: '/home',
+        name: 'Home',
+        component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
+      },
+      {
+        path: '/home/legal-warning',
+        name: 'Legal-Warning',
+        component: () => import(/* webpackChunkName: "SignIn" */ '../views/Legal-Warning.vue')
+      }
+    ]
   }
 ]
 

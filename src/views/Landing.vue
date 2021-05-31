@@ -130,9 +130,9 @@ html {
 }
 .landingHome {
   background-image: url("../assets/img/present-bg.jpg");
-  background-position: left;
+  background-position: center;
   background-attachment: fixed;
-  
+  background-size: cover;
 }
 .container {
   height: 100%;

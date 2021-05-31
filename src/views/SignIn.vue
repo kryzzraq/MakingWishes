@@ -18,7 +18,7 @@
               <div>
                 <div class="err ml-1" >
                   <div v-if="$v.user.name.$dirty && !$v.user.name.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.name.$dirty && !$v.user.name.alpha">Este campo sólo admite caracteres alfabéticos.</div>
+                  <div v-if="$v.user.name.$dirty && !$v.user.name.regexName">Este campo sólo admite caracteres alfabéticos.</div>
                 </div>
                 <v-text-field
                   placeholder="Nombre"
@@ -31,15 +31,26 @@
               </div>
               <div>
                 <div class="err ml-1" >
-                  <div v-if="$v.user.lastName.$dirty && !$v.user.lastName.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.lastName.$dirty && !$v.user.lastName.alpha">Este campo sólo admite caracteres alfabéticos.</div>
+                  <div v-if="$v.user.lastName1.$dirty && !$v.user.lastName1.required">Este campo es requerido.</div>
+                  <div v-if="$v.user.lastName1.$dirty && !$v.user.lastName1.regexLastName">Este campo sólo admite caracteres alfabéticos.</div>
                 </div>
                 <v-text-field
-                  placeholder="Apellidos"
-                  hint="Apellidos"
+                  placeholder="Primer apellido"
+                  hint="Primer apellido"
                   solo
                   dense
-                  v-model.trim="$v.user.lastName.$model"
+                  v-model.trim="$v.user.lastName1.$model"
+                ></v-text-field>
+                <div class="err ml-1" >
+                  <div v-if="$v.user.lastName2.$dirty && !$v.user.lastName2.required">Este campo es requerido.</div>
+                  <div v-if="$v.user.lastName2.$dirty && !$v.user.lastName2.regexLastName">Este campo sólo admite caracteres alfabéticos.</div>
+                </div>
+                <v-text-field
+                  placeholder="Segundo apellido"
+                  hint="Segundo apellido"
+                  solo
+                  dense
+                  v-model.trim="$v.user.lastName2.$model"
                 ></v-text-field>
 
               </div>
@@ -88,9 +99,20 @@
                   @click:append="show1 = !show1"
                   v-model.trim="$v.user.password.confirm.$model"
                   required
-                ></v-text-field>
+                ></v-text-field>                      
               </div>
-              <v-btn block  color="primary" @click.prevent="submitForm" :disabled="$v.$invalid"
+              <div>
+                <v-file-input
+                  prepend-icon="mdi-camera"
+                  solo
+                  dense
+                  id="avatar"
+                  v-model.trim="user.avatar"
+                  accept="image/png, image/jpeg"
+                  placeholder="Selecciona una foto (Opcional)"
+                ></v-file-input>
+              </div>
+              <v-btn block  color="primary" @click="submitForm" :disabled="$v.$invalid"
                 >Registrarse</v-btn>
             </v-card-text>
           </v-layout>
@@ -102,7 +124,10 @@
 
 <script>
 // @ is an alias to /src
-import { required, alpha, email, sameAs, minLength } from "vuelidate/lib/validators";
+import axios from 'axios'
+import { required, email, sameAs, minLength, helpers} from "vuelidate/lib/validators";
+const regexName = helpers.regex('regexName', /(^[a-záéíóúñ]+)([a-z áéíóúñ]+)?$/i);
+const regexLastName = helpers.regex('regexLastName',/(^[a-záéíóúñ]+)?$/i);
 
 export default {
   name: "SignIn",
@@ -112,8 +137,10 @@ export default {
       show: false,
       show1: false,
       user: {
+        avatar: [],
         name: '',
-        lastName: '',
+        lastName1: '',
+        lastName2: '',
         email: '',
         password: {
           password: '',
@@ -123,20 +150,37 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      console.log(this.$v)
-      alert("sending form")
+    async submitForm(e) {
+      let fd = new FormData();
+      let files = document.getElementById('avatar').files[0];
+      fd.append('image',files);
+      fd.append('name',this.user.name);
+      fd.append('last_name_1',this.user.lastName1);
+      fd.append('last_name_2',this.user.lastName2);
+      fd.append('email',this.user.email);
+      fd.append('password1',this.user.password.password);
+      fd.append('password2',this.user.password.confirm);
+
+      let response = await axios.post("http://localhost/API_making_wishes/public/index.php/signin", fd)
+    
+      if(response.data.text) {
+        this.$router.push("/")
+      }
     },
   },
   validations: {
     user: {
       name: {
         required,
-        alpha
+        regexName
       }, 
-      lastName: {
+      lastName1: {
         required,
-        alpha
+        regexLastName
+      },
+      lastName2: {
+        required,
+        regexLastName
       },
       email: {
         required,
@@ -153,6 +197,8 @@ export default {
       }
     }
   },
+  mounted(){
+  }
 };
 </script>
 <style>
