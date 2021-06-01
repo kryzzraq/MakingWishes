@@ -54,11 +54,12 @@
                   exact-active-class
                 >
                   <v-avatar
-                    color="secondary"
+                    color="white"
                   >
                     <img
-                      src="../assets/img/user-icon.jpg"
-                      alt="John"
+                      :src="user.route_image"
+                      alt="profile-avatar"
+                      class="profile-avatar"
                     >
                   </v-avatar>
                   <v-icon
@@ -77,9 +78,13 @@
                       color="secondary"
                       class="mb-3"
                     >
-                      <span class="white--text">{{ user.initials }}</span>
+                      <img
+                      :src="user.route_image"
+                      alt="profile-avatar"
+                      class="profile-avatar"
+                    >
                     </v-avatar>
-                    <h3>{{ user.fullName }}</h3>
+                    <h3>{{ user.name }} {{ user.last_name_1 }} {{ user.last_name_2 }}</h3>
                     <p class="caption mt-1">
                       {{ user.email }}
                     </p>
@@ -125,7 +130,15 @@
         tile
         dark>
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-        <v-toolbar-title>Making Wishes</v-toolbar-title>
+        <v-toolbar-title>
+          <v-img
+          src="../assets/img/logo_letras.png"
+          alt="logotipo-making-wishes"
+          class="mr-5"
+          max-height="40px"
+          max-width="150px"
+        ></v-img>
+        </v-toolbar-title>
       </v-app-bar>
         <v-navigation-drawer
           v-model="drawer"
@@ -220,8 +233,10 @@
 
 <script>
   import axios from 'axios'
+  import {mapState} from 'vuex'
 
     export default {
+      name: "Making-Wishes",
         data() {
             return {
               menu:[
@@ -263,29 +278,30 @@
                   path: "/home"
                 }
               ],
-              drawer: false,
-              user: {
-                initials: 'LMV',
-                fullName: 'Laura Martín Vicente',
-                email: 'lauramartinv394@gmail.com',
-              },
-              mulaya: "https://www.mulaya.com/es/content/22-aviso-legal"
+              drawer: false
             }
         },
         methods: {
           async signOff() {
-            let response = await axios.get(this.$store.state.baseService+'/signoff')
+            let response = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+'/signoff')
             console.log(response)
             if (response.data === "signoff") {
               localStorage.clear();
               this.$router.push ("/")
             }
           }
+        },computed:{
+          ...mapState(['user'])
         },
         beforeMount() {
           if (!localStorage.getItem("token")) {
             this.$router.push("/")
           }
+        },
+        mounted() {
+          console.log(process.env)
+          console.log(process.env.VUE_APP_SERVER_IMG_PATH+this.user.route_image);
+          this.user.route_image = process.env.VUE_APP_SERVER_IMG_PATH+this.user.route_image
         }
     }
 </script>
@@ -298,5 +314,14 @@
     }
     .min-90 {
       min-height: 90vh;
+    }
+    h2 {
+      letter-spacing: 0.2rem;
+    }
+    .toolbar-title {
+      font-size: 30px;
+    }
+    .profile-avatar {
+      object-fit: cover;
     }
 </style>

@@ -105,7 +105,7 @@ export default {
     ]),
     async login (email, password) {
       try{
-        let response = await axios.post (this.$store.state.baseService+"/login",
+        let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/login",
         {
           "email": email,
           "passwd": password

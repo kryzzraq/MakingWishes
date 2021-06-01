@@ -161,7 +161,7 @@ export default {
       fd.append('password1',this.user.password.password);
       fd.append('password2',this.user.password.confirm);
 
-      let response = await axios.post("http://localhost/API_making_wishes/public/index.php/signin", fd)
+      let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/signin", fd)
     
       if(response.data.text) {
         this.$router.push("/")
