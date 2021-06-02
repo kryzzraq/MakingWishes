@@ -16,12 +16,15 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-axios.interceptors.request.use(function (config) {
-  if (localStorage.getItem('token')) {
-    config.headers.Authorization = localStorage.getItem('token')  
+axios.interceptors.request.use(function(config) {
+  const auth_token = localStorage.getItem('token');
+  console.log(auth_token)
+  if(auth_token) {
+    config.headers.Authorization = `Bearer ${auth_token}`;
   }
-
   return config;
+}, function(err) {
+  return Promise.reject(err);
 });
 
 axios.interceptors.response.use(function (response) {

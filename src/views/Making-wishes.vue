@@ -284,7 +284,6 @@
         methods: {
           async signOff() {
             let response = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+'/signoff')
-            console.log(response)
             if (response.data === "signoff") {
               localStorage.clear();
               this.$router.push ("/")
@@ -299,8 +298,6 @@
           }
         },
         mounted() {
-          console.log(process.env)
-          console.log(process.env.VUE_APP_SERVER_IMG_PATH+this.user.route_image);
           this.user.route_image = process.env.VUE_APP_SERVER_IMG_PATH+this.user.route_image
         }
     }
