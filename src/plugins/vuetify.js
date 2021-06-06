@@ -10,7 +10,8 @@ export default new Vuetify({
         themes: {
           light: {
             primary: '#F50057',
-            primaryLight: '#F08080'
+            primaryLight: '#F08080',
+            secondaryLight: '#808080'
           },
           dark:{
               warning: '#e23452'

@@ -57,7 +57,7 @@
                     color="white"
                   >
                     <img
-                      :src="user.route_image"
+                      :src="user.image"
                       alt="profile-avatar"
                       class="profile-avatar"
                     >
@@ -84,7 +84,7 @@
                       class="profile-avatar"
                     >
                     </v-avatar>
-                    <h3>{{ user.name }} {{ user.last_name_1 }} {{ user.last_name_2 }}</h3>
+                    <h3 class="overline">{{ user.name }} {{ user.last_name_1 }} {{ user.last_name_2 }}</h3>
                     <p class="caption mt-1">
                       {{ user.email }}
                     </p>
@@ -121,9 +121,7 @@
     </div>
 
     <div class="hidden-lg-and-up">
-      <v-card
-        class="mx-auto"
-      >
+      <v-card>
       <v-app-bar
         app
         color="primary"
@@ -149,9 +147,8 @@
           <v-list
             nav
             dense
-            flat
-          >
-            <v-list-item-title class="title"> Making Wishes </v-list-item-title>
+            flat          >
+            <v-list-item-title class="title pb-2">Making Wishes </v-list-item-title>
             <v-list-item-group
               v-for="(item) in menu" v-bind:key="item.index"
             >
@@ -160,13 +157,13 @@
                 <v-list-item-title @click="$router.push(item.path)">{{item.index}}</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
-            
+            <v-divider class="my-3"></v-divider>
             <v-list-item-group
               v-for="(item) in submenu" :key="item.index"
             >
-              <v-list-item>
+              <v-list-item @click="$router.push(item.path)">
                 <v-icon size="20px" class="pa-3 grey--text text--darken-3">mdi-{{item.icon}}</v-icon>
-                <v-list-item-title @click="$router.push(item.path)">{{item.index}}</v-list-item-title>
+                <v-list-item-title >{{item.index}}</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
             <v-text-field
@@ -215,7 +212,7 @@
               <a href="https://www.linkedin.com"><v-icon size="30px" class="pa-1 text--white">mdi-linkedin</v-icon></a>
             </div>
           </v-col>
-          <v-col to="/home">
+          <v-col>
            <div><a class="white--text"  @click="$router.push('/home/legal-warning')"> Aviso legal</a></div>
            <div><a class="white--text" @click="$router.push('/home/legal-warning')"> Política de privacidad</a></div>
            <div><a class="white--text" @click="$router.push('/home/legal-warning')"> Condiciones de uso</a></div>
@@ -248,34 +245,34 @@
                 {
                   index: "Mis deseos",
                   icon: "thought-bubble-outline",
-                  path: "/home"
+                  path: "/home/wishes"
                 },
                 {
                   index: "Mis grupos",
                   icon: "account-group-outline",
-                  path: "/home"
+                  path: "/home/groups"
                 },
                 {
                   index: "Mis contactos",
                   icon: "account-box-outline",
-                  path: "/home"
+                  path: "/home/contacts"
                 }
               ],
               submenu:[
                 {
                   index: "Configuración de la cuenta",
                   icon: "cog-outline",
-                  path: "/home"
+                  path: "/home/config"
                 },
                 {
                   index: "Notificaciones",
                   icon: "bell-outline",
-                  path: "/home"
+                  path: "/home/notifications"
                 },
                 {
                   index: "Crear grupo",
                   icon: "account-multiple-plus-outline",
-                  path: "/home"
+                  path: "/home/creategroup"
                 }
               ],
               drawer: false
@@ -297,8 +294,8 @@
             this.$router.push("/")
           }
         },
-        mounted() {
-          this.user.route_image = process.env.VUE_APP_SERVER_IMG_PATH+this.user.route_image
+        beforeUpdate() {
+          this.user.image = process.env.VUE_APP_SERVER_IMG_PATH+this.user.route_image
         }
     }
 </script>
@@ -310,7 +307,7 @@
       text-decoration: none;
     }
     .min-90 {
-      min-height: 90vh;
+      min-height: 80vh;
     }
     h2 {
       letter-spacing: 0.2rem;

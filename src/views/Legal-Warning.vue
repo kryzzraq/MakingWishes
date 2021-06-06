@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-14 d-flex flex-column text-justify">
+  <v-container class="mt-14 d-flex flex-column text-justify px-8">
     <div class="mt-4">
       <h3>OBJETO</h3>
       <div class="pa-2">

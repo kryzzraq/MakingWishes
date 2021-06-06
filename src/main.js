@@ -6,21 +6,10 @@ import vuetify from './plugins/vuetify'
 import Vuelidate from "vuelidate"
 import axios from "axios";
 
-Vue.use(Vuelidate);
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
-
 axios.interceptors.request.use(function(config) {
-  const auth_token = localStorage.getItem('token');
-  console.log(auth_token)
-  if(auth_token) {
-    config.headers.Authorization = `Bearer ${auth_token}`;
+  if (localStorage.token) {
+    const auth_token = localStorage.getItem('token');
+    config.headers.Authorization = auth_token;
   }
   return config;
 }, function(err) {
@@ -28,19 +17,21 @@ axios.interceptors.request.use(function(config) {
 });
 
 axios.interceptors.response.use(function (response) {
-  // Any status code that lie within the range of 2xx cause this function to trigger
-  // Do something with response data
+  // rango 200
   return response;
-}, function (error) {
-  console.log(error)
-  if (error.response.status === 401) {
-    if (window.localStorage.token) {
-      localStorage.clear;
-    }
-    // TODO: cambiar /login por /unauthoriced (hacer vista) :D
-    // se puede poner un mensaje de que será enviado en login en x segundos (?)
-    $router.push('/');
-  } else {
-    return Promise.reject(error);
-  }
+},function (error) {
+  
+  return Promise.reject(error); 
 });
+
+
+Vue.use(Vuelidate);
+Vue.config.productionTip = false
+
+
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')

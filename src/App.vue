@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 import axios from 'axios'
 import {mapActions} from 'vuex'
 
@@ -13,17 +12,18 @@ export default {
   name: 'App',
 
   components: {
-    HelloWorld,
   },
 
   data: () => ({
     //
   }),
-  async beforeMount(){
+  async beforeUpdate() {
+    window.scrollTo(0,0)
+  },
+  async updated() {
     if (localStorage.token) {
-      let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+'/renewcredentials', localStorage.token);
-      console.log(response);
-        this.actLogin(response.data) 
+      let response = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/renewcredentials");
+      this.actLogin(response.data) 
     }
   },
   methods: {

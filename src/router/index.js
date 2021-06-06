@@ -32,8 +32,39 @@ const routes = [
       {
         path: '/home/legal-warning',
         name: 'Legal-Warning',
-        component: () => import(/* webpackChunkName: "SignIn" */ '../views/Legal-Warning.vue')
+        component: () => import(/* webpackChunkName: "legal-warning" */ '../views/Legal-Warning.vue')
+      },
+      {
+        path: '/home/wishes',
+        name: 'Wishes',
+        component: () => import(/* webpackChunkName: "Wishes" */ '../views/Wishes.vue')
+      },
+      {
+        path: '/home/groups',
+        name: 'Groups',
+        component: () => import(/* webpackChunkName: "Groups" */ '../views/Groups.vue')
+      },
+      {
+        path: '/home/contacts',
+        name: 'Contacts',
+        component: () => import(/* webpackChunkName: "Contacts" */ '../views/Contacts.vue')
+      },
+      {
+        path: '/home/creategroup',
+        name: 'CreateGroup',
+        component: () => import(/* webpackChunkName: "createGroup" */ '../views/CreateGroup.vue')
+      },
+      {
+        path: '/home/config',
+        name: 'Config',
+        component: () => import(/* webpackChunkName: "Groups" */ '../views/Config.vue')
+      },
+      {
+        path: '/home/notifications',
+        name: 'Notif',
+        component: () => import(/* webpackChunkName: "Notif" */ '../views/Notif.vue')
       }
+      
     ]
   }
 ]

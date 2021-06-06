@@ -9,7 +9,15 @@ export default new Vuex.Store({
     user: {
 
     },
-    baseService: "http://localhost/API_making_wishes/public/index.php"
+    wishes: {
+
+    },
+    groups: {
+
+    },
+    contacts: {
+      
+    }
   },
   mutations: {
     mutLogin(state,obj){
