@@ -1,14 +1,103 @@
 <template>
 <v-container class="py-12 py-md-16">
+    <v-snackbar
+        v-if="wrongData"
+        v-model="wrongData"
+        :timeout="5000"
+        color="secondaryMedium"
+        dark
+        top
+        transition="fade-transition"
+    >
+        Alguno de los datos no cumple con los requisitos especificados.
+        <template v-slot:action="{ attrs }">
+        <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="wrongData = false"
+        >
+            Ok
+        </v-btn>
+        </template>
+    </v-snackbar>
+    <v-snackbar
+        v-if="savedWish"
+        v-model="savedWish"
+        :timeout="3000"
+        color="secondaryMedium"
+        dark
+        top
+        transition="fade-transition"
+    >
+        Deseo guardado correctamente
+        <template v-slot:action="{ attrs }">
+        <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="savedWish = false"
+        >
+            Ok
+        </v-btn>
+        </template>
+    </v-snackbar>
     <div v-if="Object.keys(this.wishes).length === 0" class="mt-10 d-flex flex-column align-center px-4">
         <h3 class="text-center">
           Vaya... Parece que aún no tienes ningún deseo en tu lista.
         </h3>
         <h4 class="py-4 text--secondary">¿Qué te parece si añades alguno?</h4>
-        <div>Aquí podrás añadir todos los deseos que quieras que los demás conozcan.</div>
            
+    </div>
+    <div v-else class="mt-10 d-flex flex-column align-center px-4">
+        <h3 class="text-center my-3">En salmón aparecerán los deseos que aún tienes disponibles</h3>
+        <div class="d-flex ">
+            <div v-for="item in wishes" v-bind:key="item.name" class="mx-2">
+                <v-card
+                v-if="item.available === 'yes'"
+                color="primaryLight"
+                dark
+                width="300px"
+                min-height="250px"
+                class="my-2 d-flex flex-column justify-space-between"
+            >
+                <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
+
+                <v-card-subtitle class="text-uppercase">{{item.description}}</v-card-subtitle>
+                <v-card-subtitle class="text-lowercase caption py-0">{{item.link}}</v-card-subtitle>
+
+                <v-card-actions>
+                <v-btn text @click="deleteWish(item.id_item)">
+                    Borrar
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </div>
         </div>
-        <v-container min-width="300px" class="pb-8">
+        <h3 class="text-center my-3 mt-16">Sin embargo, en gris aparecerán los que ya han sido seleccionados</h3>
+        <div class="d-flex ">
+            <div v-for="item in wishes" v-bind:key="item.name" class="mx-2">
+                <v-card
+                v-if="item.available === 'no'"
+                color="secondaryLight"
+                dark
+                width="300px"
+                min-height="200px"
+                class="my-2 d-flex flex-column justify-space-between"
+            >
+                <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
+
+                <v-card-subtitle class="text-uppercase">{{item.description}}</v-card-subtitle>
+                <v-card-subtitle class="text-lowercase caption py-0">{{item.link}}</v-card-subtitle>
+
+                <v-card-actions>
+                </v-card-actions>
+            </v-card>
+            </div>
+        </div>
+    </div>
+        <v-container min-width="300px" class="pb-8 mt-10 d-flex flex-column align-center px-4">
+        <div class="pa-4">Aquí podrás añadir todos los deseos que quieras que los demás conozcan.</div>
             <v-expansion-panels hover >
                 <v-expansion-panel>
                     <v-expansion-panel-header ripple>Despliega si quieres saber más acerca de las listas de deseos:</v-expansion-panel-header>
@@ -31,11 +120,20 @@
             <v-card width="100%" min-width="300px" elevation="10" color="secondaryLight">
                 <v-card-text>
                     <span class="white--text">Nombre del deseo:</span>
+                    <div class="err" >
+                        <div v-if="$v.new_wish.wish_name.$dirty && !$v.new_wish.wish_name.required">Este campo es requerido.</div>
+                    </div>
                     <v-text-field 
                         solo dense
+                         v-model.trim="$v.new_wish.wish_name.$model"
                     ></v-text-field>
                     <span class="white--text" >Descripción del deseo:</span>
+                    <div class="err" >
+                        <div v-if="$v.new_wish.wish_description.$dirty && !$v.new_wish.wish_description.required">Este campo es requerido.</div>
+                        <div v-if="$v.new_wish.wish_description.$dirty && !$v.new_wish.wish_description.maxLength">Máximo 1000 caracteres.</div>
+                    </div>
                     <v-textarea
+                        v-model.trim="$v.new_wish.wish_description.$model"
                         solo
                         name="input-7-4"
                         hint="Máximo 1000 caracteres"
@@ -43,14 +141,18 @@
                         label="Máximo 1000 caracteres."
                         ></v-textarea>
                     <span class="white--text">Link del deseo:</span>
+                    <div class="err" >
+                        <div v-if="$v.new_wish.wish_link.$dirty && !$v.new_wish.wish_link.required">Este campo es requerido.</div>
+                    </div>
                     <v-text-field 
+                       v-model.trim="$v.new_wish.wish_link.$model"
                         solo dense
                     ></v-text-field>
                 </v-card-text>
                 <v-card-text class="d-flex justify-space-between">
 
-                    <v-btn color="primary">Enviar</v-btn>
-                    <v-btn>Limpiar</v-btn>
+                    <v-btn @click="createNewWish" color="primary">Enviar</v-btn>
+                    <v-btn @click="cleanData">Limpiar</v-btn>
                 </v-card-text>
             </v-card>
         </v-container>
@@ -60,6 +162,7 @@
 <script>
 import axios from 'axios'
 import {mapState} from 'vuex'
+import {required, maxLength} from "vuelidate/lib/validators";
 
 export default {
     name: "wishes",
@@ -86,15 +189,71 @@ export default {
                     "description": "Aquí se muestra si alguien ha seleccionado ya tu deseo o no.",
                     "example": ""
                 }
-            ]
+            ],
+            new_wish: {
+                "wish_name":"",
+                "wish_description":"",
+                "wish_link":""
+            },
+            wrongData: false,
+            savedWish: false
         }
     },
     methods: {
-        
+        cleanData(){
+            this.new_wish.wish_name=""
+            this.new_wish.wish_description=""
+            this.new_wish.wish_link=""
+        },
+        async createNewWish(){
+            if (!this.$v.$invalid) {
+               let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/createWish",
+                {
+                    "wish_name": this.new_wish.wish_name,
+                    "wish_description": this.new_wish.wish_description,
+                    "wish_link": this.new_wish.wish_link
+                });
+
+                if (response.data.text){
+                    this.savedWish = true
+                    window.location.reload()
+
+                    this.new_wish.wish_name = ""
+                    this.new_wish.wish_description = ""
+                    this.new_wish.wish_link = ""
+                }
+                
+            } else {
+                this.wrongData = true
+            }
+        },
+        async deleteWish(id){
+            let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteWish", {
+                "item_id": id
+            })
+
+            if (response.data.text) {
+               window.location.reload()
+            }
+        }
     },
     computed:{
         ...mapState(['wishes'])
-    }    
+    },
+    validations: {
+        new_wish: {
+            wish_description: {
+                required,
+                maxLength: maxLength(1000)
+            },
+            wish_name: {
+                required
+            },
+            wish_link: {
+                required
+            }
+        }
+    }
 }
 </script>
 <style scoped>
@@ -103,7 +262,11 @@ h3, h4 {
     font-weight: 400;
     text-transform: uppercase;
 }
-.v-list-item__title, .v-list-item__subtitle{
+.v-list-item__subtitle{
     white-space: inherit;
+}
+.err{
+    color: black;
+    font-size: 11px;
 }
 </style>

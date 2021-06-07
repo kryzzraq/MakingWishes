@@ -22,13 +22,16 @@ export default {
   },
   async updated() {
     if (localStorage.token) {
-      let response = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/renewcredentials");
-      this.actLogin(response.data) 
+      let responseUser = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/renewcredentials");
+      this.actLogin(responseUser.data) 
+
+      let responseWishes = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadUserWishes");
+      this.actLoadWishes(responseWishes.data);
     }
   },
   methods: {
     ...mapActions([
-      'actLogin'
+      'actLogin', 'actLoadWishes'
     ])
   }
 };

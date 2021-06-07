@@ -79,7 +79,7 @@
                       class="mb-3"
                     >
                       <img
-                      :src="user.route_image"
+                      :src="user.image"
                       alt="profile-avatar"
                       class="profile-avatar"
                     >
