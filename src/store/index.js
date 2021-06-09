@@ -15,6 +15,9 @@ export default new Vuex.Store({
     groups: {
 
     },
+    ownGroups: {
+
+    },
     contacts: {
       
     }
@@ -25,6 +28,15 @@ export default new Vuex.Store({
     },
     mutLoadWishes(state, obj) {
       this.state.wishes = obj
+    },
+    mutLoadOwnGroups(state, obj) {
+      this.state.ownGroups = obj
+    },
+    mutLoadGroups(state, obj) {
+      this.state.groups = obj
+    },
+    mutLoadContacts(state, obj) {
+      this.state.contacts = obj
     }
   },
   actions: {
@@ -33,6 +45,15 @@ export default new Vuex.Store({
     },
     actLoadWishes({commit}, obj){
       commit('mutLoadWishes', obj)
+    },
+    actLoadOwnGroups({commit}, obj) {
+      commit('mutLoadOwnGroups', obj)
+    },
+    actLoadGroups({commit}, obj) {
+      commit('mutLoadGroups', obj)
+    },
+    actLoadContacts({commit}, obj) {
+      commit('mutLoadContacts', obj)
     }
   },
   modules: {

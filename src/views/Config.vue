@@ -1,6 +1,27 @@
 <template>
     <v-container  class="py-12 py-md-16">
         <div class="mt-10 d-flex flex-column align-center">
+            <v-snackbar
+                v-if="chngPassword"
+                v-model="chngPassword"
+                :timeout="3000"
+                color="secondaryMedium"
+                dark
+                top
+                transition="fade-transition"
+            >
+                Contraseña cambiada correctamente
+                <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="chngPassword = false"
+                >
+                    Ok
+                </v-btn>
+                </template>
+            </v-snackbar>
             <h3 class="text-center">
                 Configuración de la cuenta
             </h3>
@@ -8,40 +29,41 @@
             <v-card color="secondaryLight" width="50%" min-width="300px" elevation="10" class="my-6 pt-4">
                 <v-card-text>
                     <div>
-                        <!-- <div class="err ml-1" >
-                        <div v-if="$v.user.password.password.$dirty && !$v.user.password.password.required">Este campo es requerido.</div>
-                        <div v-if="$v.user.password.password.$dirty && !$v.user.password.password.minLength">Mínimo 8 caracteres.</div>
+                        <div class="err ml-1" >
+                            <div v-if="$v.newDataUser.password.password.$dirty && !$v.newDataUser.password.password.required">Este campo es requerido.</div>
+                            <div v-if="$v.newDataUser.password.password.$dirty && !$v.newDataUser.password.password.minLength">Mínimo 8 caracteres.</div>
                         </div> 
-                        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show ? 'text' : 'password'"
-                        -->
+                       
                         <v-text-field
                         solo
                         dense
-                    
+                        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show ? 'text' : 'password'"
                         placeholder="Introduzca una contraseña"
                         hint="Contraseña"
+                        v-model.trim="$v.newDataUser.password.password.$model"
+                        @click:append="show = !show"
                         required
                         ></v-text-field>
                     </div>
                     <div>
-                        <!-- <div class="err ml-1" >
-                        <div v-if="$v.user.password.confirm.$dirty && !$v.user.password.confirm.sameAsPassword">Las contraseñas no coinciden.</div>
+                        <div class="errAA ml-1" >
+                            <div v-if="$v.newDataUser.password.confirm.$dirty && !$v.newDataUser.password.confirm.sameAsPassword">Las contraseñas no coinciden.</div>
                         </div>
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show1 ? 'text' : 'password'"
-                        -->
                         <v-text-field
                         solo
                         dense
                         class="red--text"
                         placeholder="Confirma la contraseña"
-                    
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show1 ? 'text' : 'password'"
                         hint="Confirma la contraseña"
+                        @click:append="show1 = !show1"
+                        v-model.trim="$v.newDataUser.password.confirm.$model"
                         required
-                        ></v-text-field>                      
+                        ></v-text-field>                     
                     </div>
-                    <v-btn block  color="primary"
+                    <v-btn block  color="primary" :disabled="$v.$invalid" @click="changePassword"
                     >Cambiar contraseña</v-btn>
                 </v-card-text>
             </v-card>
@@ -66,11 +88,64 @@
 </template>
 <script>
 import {mapState} from 'vuex'
+import { required, email, sameAs, minLength, helpers} from "vuelidate/lib/validators";
+
+import axios from 'axios'
 
 export default {
     name: "Config",
     computed:{
         ...mapState(['user'])
+    },
+    validations: {
+        newDataUser: {
+            password: {
+                password: {
+                required,
+                minLength: minLength(8)
+                },
+                confirm: {
+                sameAsPassword: sameAs('password')
+                }
+            }
+        }
+    },
+    data() {
+        return{
+            show: false,
+            show1: false,
+            chngPassword: false,
+            newDataUser: {
+                avatar: [],
+                password: {
+                    password: '',
+                    confirm: '',
+                }
+            }
+        }
+    },
+    methods: {
+        async changePassword(){
+            if (this.newDataUser.password.password === this.newDataUser.password.confirm) {
+                let encryptedPassword = this.CryptoJS.AES.encrypt(this.newDataUser.password.password, "MakingWishes").toString()
+                let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/changePassword", {
+                    "password": encryptedPassword
+                });
+
+                if (response.data.text) {
+                    this.chngPassword = true;
+                    this.newDataUser.password.password = ""
+                    this.newDataUser.password.confirm = ""
+                }
+            }
+        },
+        async changeAvatar(){
+            let fd = new FormData();
+            let files = document.getElementById('avatar').files[0];
+            fd.append('image',files);
+
+            let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/changeAvatar", fd)
+        }
     }
 }
 </script>
@@ -78,8 +153,11 @@ export default {
 <style lang="scss" scoped>
 
     h3, h4 {
-    letter-spacing: 0.26rem;
-    font-weight: 400;
-    text-transform: uppercase;
-}
+        letter-spacing: 0.26rem;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+    .err{
+        color:white
+    }
 </style>

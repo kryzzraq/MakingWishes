@@ -27,11 +27,21 @@ export default {
 
       let responseWishes = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadUserWishes");
       this.actLoadWishes(responseWishes.data);
+
+      let responseOwnGroups = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadOwnGroups");
+      this.actLoadOwnGroups(responseOwnGroups.data);
+
+      let responseGroups = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroups");
+      this.actLoadGroups(responseGroups.data);
+
+      let responseContacts = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContacts");
+      this.actLoadContacts(responseContacts.data);
+      
     }
   },
   methods: {
     ...mapActions([
-      'actLogin', 'actLoadWishes'
+      'actLogin', 'actLoadWishes','actLoadOwnGroups', 'actLoadGroups', 'actLoadContacts'
     ])
   }
 };

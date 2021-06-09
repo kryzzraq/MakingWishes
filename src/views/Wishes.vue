@@ -51,15 +51,15 @@
     </div>
     <div v-else class="mt-10 d-flex flex-column align-center px-4">
         <h3 class="text-center my-3">En salmón aparecerán los deseos que aún tienes disponibles</h3>
-        <div class="d-flex ">
-            <div v-for="item in wishes" v-bind:key="item.name" class="mx-2">
+        <div class="d-flex flex-wrap justify-center">
+            <div v-for="item in wishes" v-bind:key="item.id_item" class="">
                 <v-card
                 v-if="item.available === 'yes'"
                 color="primaryLight"
                 dark
                 width="300px"
                 min-height="250px"
-                class="my-2 d-flex flex-column justify-space-between"
+                class="ma-2 d-flex flex-column justify-space-between"
             >
                 <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
 
@@ -75,8 +75,8 @@
             </div>
         </div>
         <h3 class="text-center my-3 mt-16">Sin embargo, en gris aparecerán los que ya han sido seleccionados</h3>
-        <div class="d-flex ">
-            <div v-for="item in wishes" v-bind:key="item.name" class="mx-2">
+        <div class="d-flex flex-wrap">
+            <div v-for="item in wishes" v-bind:key="item.id_item" class="mx-2">
                 <v-card
                 v-if="item.available === 'no'"
                 color="secondaryLight"
@@ -143,6 +143,7 @@
                     <span class="white--text">Link del deseo:</span>
                     <div class="err" >
                         <div v-if="$v.new_wish.wish_link.$dirty && !$v.new_wish.wish_link.required">Este campo es requerido.</div>
+                        <div v-if="$v.new_wish.wish_link.$dirty && !$v.new_wish.wish_link.maxLength">Máximo 600 caracteres.</div>
                     </div>
                     <v-text-field 
                        v-model.trim="$v.new_wish.wish_link.$model"
@@ -250,7 +251,8 @@ export default {
                 required
             },
             wish_link: {
-                required
+                required,
+                maxLength: maxLength(600)
             }
         }
     }

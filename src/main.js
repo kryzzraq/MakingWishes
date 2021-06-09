@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import Vuelidate from "vuelidate"
 import axios from "axios";
+import VueCryptojs from 'vue-cryptojs'
 
 axios.interceptors.request.use(function(config) {
   if (localStorage.token) {
@@ -26,6 +27,7 @@ axios.interceptors.response.use(function (response) {
 
 
 Vue.use(Vuelidate);
+Vue.use(VueCryptojs);
 Vue.config.productionTip = false
 
 

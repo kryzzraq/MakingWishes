@@ -63,6 +63,16 @@ const routes = [
         path: '/home/notifications',
         name: 'Notif',
         component: () => import(/* webpackChunkName: "Notif" */ '../views/Notif.vue')
+      },
+      {
+        path: '/home/ownGroup/:id',
+        name: 'ownGroup',
+        component: () => import(/* webpackChunkName: "ownGroup" */ '../views/ownGroup.vue')
+      },
+      {
+        path: '/home/group/:id',
+        name: 'Group',
+        component: () => import(/* webpackChunkName: "group" */ '../views/Group.vue')
       }
       
     ]

@@ -307,7 +307,7 @@
       text-decoration: none;
     }
     .min-90 {
-      min-height: 80vh;
+      min-height: 73vh;
     }
     h2 {
       letter-spacing: 0.2rem;
