@@ -54,6 +54,12 @@ const routes = [
         name: 'CreateGroup',
         component: () => import(/* webpackChunkName: "createGroup" */ '../views/CreateGroup.vue')
       },
+      ,
+      {
+        path: '/home/notifications',
+        name: 'Notifications',
+        component: () => import(/* webpackChunkName: "Notifications" */ '../views/Notifications.vue')
+      },
       {
         path: '/home/config',
         name: 'Config',

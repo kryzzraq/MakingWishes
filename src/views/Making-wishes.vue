@@ -270,6 +270,11 @@
                   path: "/home/config"
                 },
                 {
+                  index: "Notificaciones",
+                  icon: "bell-alert-outline",
+                  path: "/home/notifications"
+                },
+                {
                   index: "Crear grupo",
                   icon: "account-multiple-plus-outline",
                   path: "/home/creategroup"

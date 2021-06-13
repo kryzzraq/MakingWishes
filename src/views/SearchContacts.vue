@@ -36,7 +36,7 @@
                                     v-on="on"
                                     icon 
                                     color="primary"
-                                    @click="addUser(actualSearchUsers)">
+                                    @click="addUser(user.id_user)">
                                         <v-icon> mdi-account-plus-outline</v-icon>
                                     </v-btn>
                                 </template>
@@ -62,16 +62,7 @@ export default {
     data(){
         return{
             actualSearchUsers:[
-                {
-                    email:"redkirves@gmail.com",
-                    id_user:"2",
-                    image:"http://localhost/API_making_wishes/public/upload/1623415065chica.png",
-                    last_name_1: "Martin",
-                    last_name_2:"Vicente",
-                    name:"Laura",
-                    rol:"normal",
-                    route_image:"upload/1623415065chica.png"
-                }
+                
             ],
             img_path:process.env.VUE_APP_SERVER_IMG_PATH,
             user: {
@@ -82,9 +73,15 @@ export default {
       ...mapState(['actualSearch'])
     },
     methods: {
-        addUser(arr){
-            console.log(Object.keys(arr).length);
-            console.log(this);
+        async addUser(id){
+            let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/sendFriendship", {
+                "id_user_notif": id
+            })
+            if (response.data.text) {
+                window.scrollTo(0,0)
+                window.location.reload()
+            }
+           
         }
     },
     async beforeMount() {
