@@ -1,5 +1,26 @@
 <template>
   <v-container class="form d-flex justify-center mt-8">
+      <v-snackbar
+        v-if="wrongData"
+        v-model="wrongData"
+        :timeout="5000"
+        color="secondaryMedium"
+        dark
+        top
+        transition="fade-transition"
+    >
+        Alguno de los datos no cumple con los requisitos especificados.
+        <template v-slot:action="{ attrs }">
+        <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="wrongData = false"
+        >
+            Ok
+        </v-btn>
+        </template>
+    </v-snackbar>
     <v-card color="secondaryLight" width="100%" min-width="300px" elevation="10">
         <v-card-text>
             <span class="white--text">Nombre del grupo:</span>
@@ -31,12 +52,11 @@
                 id="img_group"
                 accept="image/png, image/jpeg"
                 placeholder="Selecciona una imagen (Opcional)"
-                v-model.trim="new_group.group_img"
             ></v-file-input>
         </v-card-text>
         <v-card-text class="d-flex justify-space-between">
 
-            <v-btn @click="createGroup" color="primary">Enviar</v-btn>
+            <v-btn @click="createGroup" color="primary">Crear grupo</v-btn>
             <v-btn @click="cleanData">Limpiar</v-btn>
         </v-card-text>
     </v-card>
@@ -55,7 +75,8 @@ import {required, maxLength} from "vuelidate/lib/validators";
             "group_name":"",
             "group_description":"",
             "group_img":[]
-        },      
+        },  
+        wrongData: false    
     }),
     validations: {
         new_group: {
@@ -75,21 +96,23 @@ import {required, maxLength} from "vuelidate/lib/validators";
             this.new_group.group_img = []
         },
         async createGroup(){
-            let fd = new FormData();
+             if (!this.$v.$invalid) {
+                let fd = new FormData();
 
-            let file = document.getElementById('img_group').files[0];
-            fd.append('group_img',file);
-            fd.append('group_name',this.new_group.group_name);
-            fd.append('group_description',this.new_group.group_description);
+                let file = document.getElementById('img_group').files[0];
+                fd.append('image',file);
+                fd.append('group_name',this.new_group.group_name);
+                fd.append('group_description',this.new_group.group_description);
 
-            console.log(fd)
-
-            let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/createGroup", fd)
-            
-            if(response.data.text) {
-                window.scrollTo(0,0)
-                window.location.reload()
-            }
+                let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/createGroup", fd)
+                
+                if(response.data.text) {
+                    window.scrollTo(0,0)
+                    window.location.reload()
+                }
+             } else {
+                 this.wrongData = true
+             }
         }
     }
   }

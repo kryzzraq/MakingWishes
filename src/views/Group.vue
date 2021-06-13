@@ -24,37 +24,37 @@
                 <div class="d-flex flex-column">
                     <div class="mt-4 ">
                         <h3 class="mx-4">Deseos:</h3>
-                        <h5 class="ml-6"> Disponibles</h5>
+                        <h4 class="ml-6"> Disponibles:</h4>
                     </div>
                     <div class="px-8" v-for="wish in wishes" v-bind:key="wish.name"> 
                         <div v-if="wish.available === 'yes'">
-                            <v-row >
-                                <v-col class="pb-0" cols="6">
-                                    <h4 class="py-1">{{wish.name}}</h4>
-                                </v-col>
-                                <v-col  class="pa-0 ma-0" cols="6">
-                                    <v-btn class="mt-2" icon color="primary" @click="selectWish(wish.id_item)" ><v-icon>mdi-gift-open-outline</v-icon></v-btn>
-                                </v-col>
-                            </v-row> 
-                            <v-row class="pl-4">
-                                <v-col class="pa-0 ma-0 h5">{{wish.description}}</v-col>    
-                            </v-row> 
-                            <v-row class="pl-4">
-                                <v-col  class="pa-0 ma-0 "><a @click="redirect(wish.link)" class="caption">{{wish.link}}</a>  </v-col>
-                            </v-row>    
+                            <div class="d-flex">
+                                <div class="d-flex align-center name" >
+                                    <h5 >{{wish.name}}</h5>
+                                </div>
+                                <div  class="d-flex align-end">
+                                    <v-btn icon  @click="selectWish(wish.id_item)" ><v-icon color="primary">mdi-gift-open-outline</v-icon></v-btn>
+                                </div>
+                            </div> 
+                            <div class="1">
+                                <div class="h5 text-body-2">{{wish.description}}</div>    
+                            </div> 
+                            <div class="">
+                                <a @click="redirect(wish.link)" class="caption">{{wish.link}}</a>
+                            </div>    
                         </div>
                     </div>
-                    <h5 class="mt-4 ml-6">No disponibles</h5>
+                    <h4 class="mt-4 ml-6">No disponibles:</h4>
                     <div class="px-8" v-for="wish in wishes" v-bind:key="wish.link"> 
                         <div v-if="wish.available === 'no'">
-                            <v-row >
-                                <v-col class="pb-0" cols="6">
-                                    <h4 class="py-1">{{wish.name}}</h4>
-                                </v-col>
-                            </v-row> 
-                            <v-row class="pl-4">
-                                <v-col class="pa-0 ma-0"> <div class="h5">{{wish.description}}</div> </v-col>    
-                            </v-row>   
+                            <div class="d-flex">
+                                <div class="d-flex align-center name" >
+                                    <h5 >{{wish.name}}</h5>
+                                </div>
+                            </div> 
+                            <div class="1">
+                                <div class="h5 text-body-2">{{wish.description}}</div>    
+                            </div>   
                         </div>
                     </div>
                     
@@ -148,6 +148,13 @@ h4, h5{
     letter-spacing: 1px;
     font-weight: 400;
     text-transform: uppercase;
+}
+h5{
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+.name{
+    min-width: 50%;
 }
 .h5 {
     font-size: 15px;

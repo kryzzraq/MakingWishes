@@ -67,9 +67,18 @@
                 <v-card-subtitle class="text-lowercase caption py-0">{{item.link}}</v-card-subtitle>
 
                 <v-card-actions>
-                <v-btn text @click="deleteWish(item.id_item)">
-                    Borrar
-                </v-btn>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                            icon 
+                            @click="deleteWish(item.id_item)">
+                                <v-icon> mdi-trash-can-outline</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Borrar de mi lista de deseos</span>
+                        </v-tooltip>
                 </v-card-actions>
             </v-card>
             </div>
@@ -230,7 +239,7 @@ export default {
         },
         async deleteWish(id){
             let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteWish", {
-                "item_id": id
+                "id_item": id
             })
 
             if (response.data.text) {

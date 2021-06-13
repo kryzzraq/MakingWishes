@@ -13,7 +13,7 @@
                 <v-card
                     
                     class="ma-4"
-                    max-width="400"
+                    max-width="300"
                     :to="'/home/ownGroup/'+item.id_group"
                     hover
                 >
@@ -44,7 +44,7 @@
                 <v-card
                     
                     class="ma-4"
-                    max-width="400"
+                    max-width="300"
                     :to="'/home/group/'+item.id_group"
                     hover
                 >
@@ -90,6 +90,13 @@ export default {
         }
     },
     methods: {
+        async deleteGroup(id){
+            console.log(id);
+            // await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadInfoGroup",
+            // {
+            //     "id_group": id
+            // })
+        }
         
     },
     computed:{

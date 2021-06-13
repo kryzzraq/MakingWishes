@@ -32,6 +32,8 @@
                 hide-details="false"
                 class="mr-6"
                 :append-icon="'mdi-magnify' "
+                v-model="search"
+                @keypress.enter="searchContacts"
                 placeholder="Buscar personas"
                 required
               ></v-text-field>
@@ -127,7 +129,7 @@
         color="primary"
         tile
         dark>
-        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="drawer = true" class="black--text"></v-app-bar-nav-icon>
         <v-toolbar-title>
           <v-img
           src="../assets/img/logo_letras.png"
@@ -171,6 +173,8 @@
                   dense
                   hide-details="false"
                   :append-icon="'mdi-magnify' "
+                  v-model="search"
+                  @keypress.enter="searchContacts"
                   placeholder="Buscar personas"
                   required
             ></v-text-field>
@@ -231,6 +235,7 @@
 <script>
   import axios from 'axios'
   import {mapState} from 'vuex'
+  import {mapActions} from 'vuex'
 
     export default {
       name: "Making-Wishes",
@@ -265,17 +270,13 @@
                   path: "/home/config"
                 },
                 {
-                  index: "Notificaciones",
-                  icon: "bell-outline",
-                  path: "/home/notifications"
-                },
-                {
                   index: "Crear grupo",
                   icon: "account-multiple-plus-outline",
                   path: "/home/creategroup"
                 }
               ],
-              drawer: false
+              drawer: false,
+              search: ''
             }
         },
         methods: {
@@ -285,7 +286,14 @@
               localStorage.clear();
               this.$router.push ("/")
             }
-          }
+          },
+          searchContacts(){
+            this.actSearchContacts(this.search)
+            this.$router.push("searchcontacts")
+          },
+          ...mapActions([
+            'actSearchContacts'
+          ])
         },computed:{
           ...mapState(['user'])
         },

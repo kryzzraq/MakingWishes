@@ -22,6 +22,28 @@
                 </v-btn>
                 </template>
             </v-snackbar>
+            <v-snackbar
+                v-if="chngAvatar"
+                v-model="chngAvatar"
+                :timeout="2000"
+                color="secondaryMedium"
+                dark
+                top
+                transition="fade-transition"
+            >
+                Por favor, selecciona un archivo.
+                <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="chngAvatar = false"
+                >
+                    Ok
+                </v-btn>
+                </template>
+            </v-snackbar>
+
             <h3 class="text-center">
                 Configuración de la cuenta
             </h3>
@@ -79,7 +101,7 @@
                         placeholder="Selecciona una foto"
                         ></v-file-input>
                     </div>
-                    <v-btn block  color="primary"
+                    <v-btn block  color="primary" @click="changeAvatar"
                     >Cambiar avatar</v-btn>
                 </v-card-text>
             </v-card>
@@ -115,6 +137,7 @@ export default {
             show: false,
             show1: false,
             chngPassword: false,
+            chngAvatar: false,
             newDataUser: {
                 avatar: [],
                 password: {
@@ -142,9 +165,13 @@ export default {
         async changeAvatar(){
             let fd = new FormData();
             let files = document.getElementById('avatar').files[0];
-            fd.append('image',files);
-
-            let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/changeAvatar", fd)
+            if(files){
+                fd.append('image',files);
+                await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/changeAvatar", fd)
+                // window.location.reload();
+            }else{
+               this.chngAvatar = true
+            }
         }
     }
 }

@@ -101,24 +101,20 @@ export default {
     ...mapActions([
       'actLogin'
     ]),
-    async login (email, password) {
-      try{
-        let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/login",
-        {
-          "email": email,
-          "passwd": password
-        })
-        if(response.data.email){
-          this.actLogin(response.data)
-          localStorage.setItem('token', response.data.token)
-          this.$router.push('home')
-        }else{
-          this.user.email = ''
-          this.user.password = ''
-          this.wrongCredentials = true
-        }
-      }catch(err){
-        console.log(err)
+    async login (email, password) {      
+      let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/login",
+      {
+        "email": email,
+        "passwd": password
+      })
+      if(response.data.email){
+        this.actLogin(response.data)
+        localStorage.setItem('token', response.data.token)
+        this.$router.push('home')
+      }else{
+        this.user.email = ''
+        this.user.password = ''
+        this.wrongCredentials = true
       }
     }
   },

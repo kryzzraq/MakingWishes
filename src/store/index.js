@@ -20,7 +20,8 @@ export default new Vuex.Store({
     },
     contacts: {
       
-    }
+    },
+    actualSearch: ""
   },
   mutations: {
     mutLogin(state,obj){
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     mutLoadContacts(state, obj) {
       this.state.contacts = obj
+    },
+    mutSearchContacts(state, string) {
+      this.state.actualSearch = string
     }
   },
   actions: {
@@ -54,6 +58,9 @@ export default new Vuex.Store({
     },
     actLoadContacts({commit}, obj) {
       commit('mutLoadContacts', obj)
+    },
+    actSearchContacts({commit}, string) {
+      commit('mutSearchContacts', string)
     }
   },
   modules: {
