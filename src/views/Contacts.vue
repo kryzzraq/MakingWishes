@@ -1,6 +1,6 @@
 <template>
-<v-container class="py-12 py-md-16">
-    <!--   -->
+<v-container class="py-12 py-md-16" :key="forceRender">
+
     <div v-if="Object.keys(this.contacts).length === 0" class="mt-10 d-flex flex-column align-center">
         <h3 class="text-center">
           Vaya... Parece que aún no tienes ningún contacto.
@@ -111,12 +111,9 @@ import axios from 'axios'
             { text: 'Correo electrónico', value: 'email' },
             { text: 'Acciones', value: 'actions', sortable: false, align: 'center' },
         ],
-        img_path: process.env.VUE_APP_SERVER_IMG_PATH
+        img_path: process.env.VUE_APP_SERVER_IMG_PATH,
+        contacts:[]
     }),
-
-    computed: {
-      ...mapState(['contacts'])
-    },
     methods: {
         openDialogDelete(item){
             this.dialogDelete = true
@@ -125,20 +122,29 @@ import axios from 'axios'
             this.dialogDelete = false    
         },
         async deleteItemConfirm(item){
-            this.forceRender += 1
             await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteContact",
             {
                 "id_contact": item.id_user
             })
             
             // console.log(item.id_user);
-            this.dialogDelete = false    
+            this.dialogDelete = false  
+            this.forceRender += 1
         },
         consulttUser(id){
             this.$router.push(`/home/contact/${id}`);
         }
-
     },
+    async beforeMount() {
+        let responseContacts = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContacts");
+        // console.log(responseContacts.data);
+        this.contacts = responseContacts.data
+    },
+    async beforeUpdate() {
+        let responseContacts = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContacts");
+        // console.log(responseContacts.data);
+        this.contacts = responseContacts.data
+    }
   }
 </script>
 

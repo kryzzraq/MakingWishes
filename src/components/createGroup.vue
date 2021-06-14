@@ -1,5 +1,5 @@
 <template>
-  <v-container class="form d-flex justify-center mt-8">
+  <v-container class="form d-flex justify-center mt-8" :key="forceUpdate">
       <v-snackbar
         v-if="wrongData"
         v-model="wrongData"
@@ -76,7 +76,8 @@ import {required, maxLength} from "vuelidate/lib/validators";
             "group_description":"",
             "group_img":[]
         },  
-        wrongData: false    
+        wrongData: false,
+        forceUpdate: 0
     }),
     validations: {
         new_group: {
@@ -108,7 +109,7 @@ import {required, maxLength} from "vuelidate/lib/validators";
                 
                 if(response.data.text) {
                     window.scrollTo(0,0)
-                    window.location.reload()
+                    this.forceUpdate +=1
                 }
              } else {
                  this.wrongData = true

@@ -153,13 +153,20 @@ export default {
     async submitForm(e) {
       let fd = new FormData();
       let files = document.getElementById('avatar').files[0];
+
+      let encryptedPassword = this.CryptoJS.SHA256(this.user.password.password)    
+      let newPass = encryptedPassword.toString(this.CryptoJS.enc.Base64)
+
+      let encryptedPassword1 = this.CryptoJS.SHA256(this.user.password.confirm)    
+      let newPass1 = encryptedPassword1.toString(this.CryptoJS.enc.Base64)
+
       fd.append('image',files);
       fd.append('name',this.user.name);
       fd.append('last_name_1',this.user.lastName1);
       fd.append('last_name_2',this.user.lastName2);
       fd.append('email',this.user.email);
-      fd.append('password1',this.user.password.password);
-      fd.append('password2',this.user.password.confirm);
+      fd.append('password1',newPass);
+      fd.append('password2',newPass1);
 
       let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/signin", fd)
     

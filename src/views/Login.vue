@@ -63,7 +63,6 @@
                   
                   <v-btn block small color="primary" :disabled="$v.$invalid"
                   @click="login(user.email, user.password)">Entrar</v-btn>
-                 <div class="text-center pa-2"><a class="black--text ">¿Has olvidado tu contraseña?</a></div>
                  </v-card-text>
                </v-layout>
              </v-container>
@@ -101,11 +100,13 @@ export default {
     ...mapActions([
       'actLogin'
     ]),
-    async login (email, password) {      
+    async login (email, password) {  
+      let encryptedPassword = this.CryptoJS.SHA256(password)    
+      let newPass = encryptedPassword.toString(this.CryptoJS.enc.Base64)
       let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/login",
       {
         "email": email,
-        "passwd": password
+        "passwd": newPass
       })
       if(response.data.email){
         this.actLogin(response.data)

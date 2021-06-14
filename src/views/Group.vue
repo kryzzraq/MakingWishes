@@ -1,5 +1,5 @@
 <template>
-    <v-container class="mt-16 d-flex justify-center">
+    <v-container class="mt-16 d-flex justify-center" :key="forceRender">
         <v-container class="mt-xs-8 mt-md-8 d-flex justify-sm-space-around">
             <v-card
                 class="mx-auto pb-2"
@@ -64,7 +64,7 @@
                     <div class="px-8" v-for="member in members" v-bind:key="member.name"> 
                         <v-row>
                             <v-col cols="6">
-                                <span class="h5">{{member.name}} {{member.last_name_1}} {{member.last_name_2}}</span>
+                                <span class="h5 text-body-2">{{member.name}} {{member.last_name_1}} {{member.last_name_2}}</span>
                             </v-col>
                         </v-row>               
                     </div>
@@ -92,7 +92,8 @@ export default {
                 
             ],
             img_path: process.env.VUE_APP_SERVER_IMG_PATH,
-            myId: this.$store.state.user.id_user
+            myId: this.$store.state.user.id_user,
+            forceRender: 0
         }
     },
     async beforeMount(){
@@ -129,7 +130,15 @@ export default {
             await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/selectWish",{
                 "id_item":id
             })
-            window.location.reload();
+            let responseWishes = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupWishes",
+            {
+                "id_group":this.$router.history.current.params.id
+            })
+
+            if (responseWishes.data) {
+                this.wishes = responseWishes.data
+            }
+            this.forceRender +=1
         }
     },
     computed:{

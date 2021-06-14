@@ -1,5 +1,5 @@
 <template>
-<v-container class="py-12 py-md-16">
+<v-container class="py-12 py-md-16" :key="forceRender">
     <v-snackbar
         v-if="wrongData"
         v-model="wrongData"
@@ -206,7 +206,9 @@ export default {
                 "wish_link":""
             },
             wrongData: false,
-            savedWish: false
+            savedWish: false,
+            forceRender: 0,
+            wishes: []
         }
     },
     methods: {
@@ -226,7 +228,10 @@ export default {
 
                 if (response.data.text){
                     this.savedWish = true
-                    window.location.reload()
+                    let responseWishes = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadUserWishes");
+                    this.wishes = responseWishes.data
+                    console.log(this.wishes);
+                    this.forceRender += 1
 
                     this.new_wish.wish_name = ""
                     this.new_wish.wish_description = ""
@@ -243,12 +248,18 @@ export default {
             })
 
             if (response.data.text) {
-               window.location.reload()
+                let responseWishes = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadUserWishes");
+                this.wishes = responseWishes.data
             }
+            this.forceRender += 1
         }
     },
     computed:{
-        ...mapState(['wishes'])
+        ...mapState()
+    },
+    async beforeMount(){
+        let responseWishes = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadUserWishes");
+        this.wishes = responseWishes.data
     },
     validations: {
         new_wish: {

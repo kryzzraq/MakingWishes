@@ -1,5 +1,5 @@
 <template>
-    <v-container class="mt-16 d-flex justify-center">
+    <v-container class="mt-16 d-flex justify-center" :key="forceRender">
         <v-snackbar
         v-if="wrongData"
         v-model="wrongData"
@@ -43,7 +43,7 @@
                     </v-card-text>
                 </div>
                 <div class="d-flex flex-column">
-                    <h3 class="mt-4 mx-4">Deseos:</h3>
+                    <h3 class="mx-4">Deseos:</h3>
                     
                     <div class="px-8" v-for="wish in wishes" v-bind:key="wish.name"> 
                         <div>
@@ -163,7 +163,7 @@
                     <div class="px-8" v-for="member in members" v-bind:key="member.name"> 
                         <v-row mt-6>
                             <v-col cols="6" class="mt-2">
-                                <h4>{{member.name}} {{member.last_name_1}} {{member.last_name_2}}</h4>
+                                <span class="h5 text-body-2">{{member.name}} {{member.last_name_1}} {{member.last_name_2}}</span>
                             </v-col>
                             <v-col  class="pa-0 ma-0 mt-2" cols="6" >
                                 <v-tooltip bottom>
@@ -208,7 +208,7 @@
                             <v-container>
                                 <h4 class="text-center mt-4" v-if="Object.keys(this.noMembers).length === 0">No tienes más amigos a los que añadir al grupo</h4>
                                <div v-for="user in noMembers" v-bind:key="user.id_user" class="d-flex justify-space-between users">
-                                   <div class="text-button black--text py-2">{{user.name}} {{user.last_name_1}} {{user.last_name_2}} </div>
+                                   <div class="h5 text-body-2 py-2">{{user.name}} {{user.last_name_1}} {{user.last_name_2}} </div>
                                    <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
@@ -271,6 +271,7 @@ export default {
                 "wish_link":""
             },
             wrongData: false,
+            forceRender:0
         }
     },
     async beforeMount(){
@@ -310,14 +311,23 @@ export default {
             this.noMembers = responseNoMembers.data
         }
         
-    },
+    }, 
+    
     methods: {
         async deleteWish(id){
             await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteWish",{
                 "id_item": id,
             })
             window.scrollTo(0,0)
-            window.location.reload();
+            let responseWishes = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupWishes",
+            {
+                "id_group":this.$router.history.current.params.id
+            })
+
+            if (responseWishes.data) {
+                this.wishes = responseWishes.data
+            }
+            this.forceRender =+ 1           
         },
         async saveWish() {          
             if (!this.$v.$invalid) {  
@@ -328,7 +338,19 @@ export default {
                     "id_group": this.actualGroup.id_group
                 })
                 window.scrollTo(0,0)
-                window.location.reload();
+                let responseWishes = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupWishes",
+                {
+                    "id_group":this.$router.history.current.params.id
+                })
+
+                if (responseWishes.data) {
+                    this.wishes = responseWishes.data
+                }
+                this.addWish = false
+                this.forceRender += 1
+                this.new_wish.wish_name = ""
+                this.new_wish.wish_description = ""
+                this.new_wish.wish_link = ""
             } else {
                 this.wrongData = true
             }
@@ -341,9 +363,33 @@ export default {
                     "id_group": this.$router.history.current.params.id,
                     "id_user_member": id
             })
+            let responseNotif = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/sendGroupNotif",{
+                    "id_group": this.$router.history.current.params.id,
+                    "id_user_member": id
+            })
             if(response.data){
                 window.scrollTo(0,0)
-                window.location.reload();
+                let responseMembers = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupUsers",
+                {
+                    "id_group":this.$router.history.current.params.id
+                })
+                        
+                if (responseMembers.data) {
+                    this.members = responseMembers.data
+                }
+                let responseNoMembers = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadnoMembers",
+                {
+                    "id_group":this.$router.history.current.params.id
+                })
+                console.log(responseNoMembers);
+                        
+                if (responseNoMembers.data) {
+                    this.noMembers = responseNoMembers.data
+                }
+                this.addUser = false
+                this.forceRender += 1
+
+
             }
         },
         async deleteUser(id){
@@ -353,7 +399,23 @@ export default {
             })
             if(response.data){
                 window.scrollTo(0,0)
-                window.location.reload();
+               let responseMembers = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupUsers",
+                {
+                    "id_group":this.$router.history.current.params.id
+                })
+                        
+                if (responseMembers.data) {
+                    this.members = responseMembers.data
+                }
+                let responseNoMembers = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadnoMembers",
+                {
+                    "id_group":this.$router.history.current.params.id
+                })
+                        
+                if (responseNoMembers.data) {
+                    this.noMembers = responseNoMembers.data
+                }
+                this.forceRender += 1
             }
         }
     },
@@ -380,7 +442,7 @@ export default {
 
 <style scoped>
 h2, h3{
-    letter-spacing: 0.20rem;
+    letter-spacing: 0.1rem;
     font-weight: 400;
     text-transform: uppercase;
 }
@@ -390,7 +452,16 @@ h4, h5{
     text-transform: uppercase;
 }
 h5{
-    font-size: 16px;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+.name{
+    min-width: 50%;
+}
+.h5 {
+    font-size: 15px;
+    font-weight:300 !important;
+    text-transform: capitalize;
 }
 .title{
     background-color: #F50057;
@@ -404,16 +475,8 @@ h5{
 .users{
     width: 100%;
 }
-.name{
-    min-width: 50%;
-}
 .link{
     line-height: initial;
-}
-.h5 {
-    font-size: 15px;
-    font-weight:300 !important;
-    text-transform: capitalize;
 }
 .caption{
     line-height: 1;

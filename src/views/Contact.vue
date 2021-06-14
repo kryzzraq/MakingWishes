@@ -1,6 +1,6 @@
 <template>
     <v-container class="mt-16 d-flex justify-center">
-        <v-container class="mt-xs-8 mt-md-8 d-flex justify-sm-space-around">
+        <v-container class="mt-xs-8 mt-md-8 d-flex justify-sm-space-around" :key="forceUpdate">
            <v-card
                 class="mx-auto pb-10"
                 min-width="300"
@@ -74,15 +74,21 @@ export default {
             wishes:[
 
             ],
-            img_path:process.env.VUE_APP_SERVER_IMG_PATH
+            img_path:process.env.VUE_APP_SERVER_IMG_PATH,
+            forceUpdate:0
         }
     },
     methods: {
         async selectWish(id){
-            await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/selectWish",{
+            let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/selectWish",{
                 "id_item":id
             })
-            window.location.reload();
+            let responseWishes = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContactWishes", {
+                "id_contact": this.$router.history.current.params.id
+            })
+            this.wishes = responseWishes.data
+            this.forceUpdate+=1
+            console.log(response);
         }
     },
     async beforeMount() {
@@ -99,6 +105,14 @@ export default {
             this.wishes = responseWishes.data
         }
     },
+    // async beforeUpdate() {
+    //     let responseWishes = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContactWishes", {
+    //         "id_contact": this.$router.history.current.params.id
+    //     })
+    //     if (responseWishes.data[0]) {
+    //         this.wishes = responseWishes.data
+    //     }
+    // },
     computed:{
        
     },

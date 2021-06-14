@@ -1,6 +1,6 @@
 <template>
     <v-container class="mt-16 d-flex justify-center">
-        <v-container class="mt-xs-8 mt-md-8 d-flex justify-sm-space-around">
+        <v-container class="mt-xs-8 mt-md-8 d-flex justify-sm-space-around" :key="forceUpdate">
             <div v-if="Object.keys(actualSearchUsers).length != 0" >
                 <h4 class="mb-4 text-center">Estos son los contactos que hemos contrado</h4>
                 <div class="d-flex flex-wrap justify-center">
@@ -66,7 +66,8 @@ export default {
             ],
             img_path:process.env.VUE_APP_SERVER_IMG_PATH,
             user: {
-            }
+            },
+            forceUpdate:0
         }
     },
     computed: {
@@ -77,11 +78,7 @@ export default {
             let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/sendFriendship", {
                 "id_user_notif": id
             })
-            if (response.data.text) {
-                window.scrollTo(0,0)
-                window.location.reload()
-            }
-           
+            this.forceUpdate +=1
         }
     },
     async beforeMount() {
@@ -89,6 +86,14 @@ export default {
             "search": this.$store.state.actualSearch
         })
         if (response.data[0]) {
+            this.actualSearchUsers = response.data
+        }
+    },
+    async beforeUpdate() {
+        let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadAllContacts", {
+            "search": this.$store.state.actualSearch
+        })
+        if (response.data) {
             this.actualSearchUsers = response.data
         }
     },

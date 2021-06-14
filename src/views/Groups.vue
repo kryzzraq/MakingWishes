@@ -86,7 +86,10 @@ export default {
     },
     data() {
         return {
-            img_path: process.env.VUE_APP_SERVER_IMG_PATH            
+            img_path: process.env.VUE_APP_SERVER_IMG_PATH,
+            ownGroups:[
+
+            ]         
         }
     },
     methods: {
@@ -100,8 +103,13 @@ export default {
         
     },
     computed:{
-        ...mapState(['groups','ownGroups'])
-    }    
+        ...mapState(['groups'])
+    },
+    async beforeUpdate(){
+        let responseOwnGroups = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadOwnGroups");
+        this.ownGroups = responseOwnGroups.data
+        // console.log(responseOwnGroups);
+    }
 }
 </script>
 

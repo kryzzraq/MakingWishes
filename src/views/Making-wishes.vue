@@ -123,7 +123,7 @@
     </div>
 
     <div class="hidden-lg-and-up">
-      <v-card>
+      <v-card class="pt-1">
       <v-app-bar
         app
         color="primary"
@@ -178,6 +178,9 @@
                   placeholder="Buscar personas"
                   required
             ></v-text-field>
+            <v-list-item @click="signOff" color="primary" class="mt-4">
+                <v-list-item-title class="primary--text text-center text-button">Cerrar sesión</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
         <div class="min-90">

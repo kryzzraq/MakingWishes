@@ -150,9 +150,10 @@ export default {
     methods: {
         async changePassword(){
             if (this.newDataUser.password.password === this.newDataUser.password.confirm) {
-                let encryptedPassword = this.CryptoJS.AES.encrypt(this.newDataUser.password.password, "MakingWishes").toString()
+                let encryptedPassword = this.CryptoJS.SHA256(this.newDataUser.password.password)    
+                let newPass = encryptedPassword.toString(this.CryptoJS.enc.Base64)
                 let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/changePassword", {
-                    "password": encryptedPassword
+                    "password": newPass
                 });
 
                 if (response.data.text) {
