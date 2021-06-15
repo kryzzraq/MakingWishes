@@ -58,12 +58,12 @@
                 color="primaryLight"
                 dark
                 width="300px"
-                min-height="250px"
+                min-height="200px"
                 class="ma-2 d-flex flex-column justify-space-between"
             >
                 <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
 
-                <v-card-subtitle class="text-uppercase">{{item.description}}</v-card-subtitle>
+                <v-card-subtitle class="text-uppercase py-0">{{item.description}}</v-card-subtitle>
                 <v-card-subtitle class="text-lowercase caption py-0">{{item.link}}</v-card-subtitle>
 
                 <v-card-actions>
@@ -84,15 +84,15 @@
             </div>
         </div>
         <h3 class="text-center my-3 mt-16">Sin embargo, en gris aparecerán los que ya han sido seleccionados</h3>
-        <div class="d-flex flex-wrap">
-            <div v-for="item in wishes" v-bind:key="item.id_item" class="mx-2">
+        <div class="d-flex flex-wrap justify-center">
+            <div v-for="item in wishes" v-bind:key="item.id_item">
                 <v-card
                 v-if="item.available === 'no'"
                 color="secondaryLight"
                 dark
                 width="300px"
-                min-height="200px"
-                class="my-2 d-flex flex-column justify-space-between"
+                min-height="150px"
+                class="ma-2 d-flex flex-column justify-space-between"
             >
                 <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
 
@@ -230,7 +230,6 @@ export default {
                     this.savedWish = true
                     let responseWishes = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadUserWishes");
                     this.wishes = responseWishes.data
-                    console.log(this.wishes);
                     this.forceRender += 1
 
                     this.new_wish.wish_name = ""

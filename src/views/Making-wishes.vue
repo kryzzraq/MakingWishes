@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app" :key="force_render">
     <div class="hidden-md-and-down" >
       <v-app-bar
         app
@@ -118,7 +118,7 @@
           </v-container>
       </v-app-bar>
       <div class="min-90">
-        <router-view></router-view>
+        <router-view :key="force_render"></router-view>
       </div>
     </div>
 
@@ -284,7 +284,8 @@
                 }
               ],
               drawer: false,
-              search: ''
+              search: '',
+              force_render: 0
             }
         },
         methods: {
@@ -297,7 +298,11 @@
           },
           searchContacts(){
             this.actSearchContacts(this.search)
-            this.$router.push("searchcontacts")
+            this.$router.push("searchcontacts").catch(()=>{});
+            
+            if (this.$router.history.current.fullPath === "/home/searchcontacts"){
+              this.force_render +=1
+            }
           },
           ...mapActions([
             'actSearchContacts'

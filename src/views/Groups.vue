@@ -6,7 +6,7 @@
         </h3>
         <h4 class="pt-4 text--secondary">¿Qué te parece si creas uno?</h4>
     </div>
-    <div v-if="this.ownGroups" class="mt-10 d-flex flex-column align-center px-4">
+    <div v-if="Object.keys(this.ownGroups).length != 0" class="mt-10 d-flex flex-column align-center px-4">
         <h3 class="text-center my-3">Estos son los grupos que has creado</h3>
         <div class="d-flex flex-wrap justify-center">
             <div v-for="item in ownGroups" v-bind:key="item.name">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div v-if="this.groups" class="mt-10 d-flex flex-column align-center px-4">
+    <div v-if="Object.keys(this.groups).length !== 0" class="mt-10 d-flex flex-column align-center px-4">
         <h3 class="text-center my-3">Estos son los grupos a los que perteneces</h3>
     </div>
         <div class="d-flex flex-wrap justify-center">
@@ -66,7 +66,12 @@
                 </v-card>
             </div>
         </div>       
-        <h3 class="mt-8">Aquí podrás crear un grupo para cualquier evento.</h3> 
+        <h3 
+        v-if="Object.keys(this.groups).length !== 0 || Object.keys(this.ownGroups).length !== 0"
+        class="mt-8"
+        >
+          Aquí podrás crear un grupo para cualquier evento.
+        </h3> 
     <create-group/>
        
 </v-container>
@@ -92,23 +97,13 @@ export default {
             ]         
         }
     },
-    methods: {
-        async deleteGroup(id){
-            console.log(id);
-            // await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadInfoGroup",
-            // {
-            //     "id_group": id
-            // })
-        }
-        
-    },
     computed:{
         ...mapState(['groups'])
     },
     async beforeUpdate(){
         let responseOwnGroups = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadOwnGroups");
         this.ownGroups = responseOwnGroups.data
-        // console.log(responseOwnGroups);
+
     }
 }
 </script>

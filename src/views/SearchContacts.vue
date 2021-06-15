@@ -46,8 +46,9 @@
                     </v-card>
                 </div>
             </div>
-            <div v-else>
-                <h3>Sin resultados</h3>
+            <div v-else class="ma-auto d-flex flex-column justify-center">
+                <h2 class="text-center">Sin resultados</h2>
+                <v-icon class="ma-auto icon-sad">mdi-emoticon-sad-outline</v-icon>
             </div>
         </v-container>
     </v-container>
@@ -121,5 +122,11 @@ h4, h5{
 }
 .text-name{
     text-transform: uppercase !important;
+}
+.icon-sad{
+    font-size: 200px !important;
+    padding-top: 20px;
+    font-weight: 100;
+    color:rgb(225, 225, 225) !important;
 }
 </style>

@@ -149,6 +149,7 @@ export default {
     },
     methods: {
         async changePassword(){
+            //encriptamos la contraseña antes de mandarla a servidor
             if (this.newDataUser.password.password === this.newDataUser.password.confirm) {
                 let encryptedPassword = this.CryptoJS.SHA256(this.newDataUser.password.password)    
                 let newPass = encryptedPassword.toString(this.CryptoJS.enc.Base64)
@@ -169,7 +170,7 @@ export default {
             if(files){
                 fd.append('image',files);
                 await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/changeAvatar", fd)
-                // window.location.reload();
+                window.location.reload();
             }else{
                this.chngAvatar = true
             }

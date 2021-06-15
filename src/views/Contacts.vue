@@ -1,5 +1,26 @@
 <template>
 <v-container class="py-12 py-md-16" :key="forceRender">
+    <v-snackbar
+        v-if="dialogDelete"
+        v-model="dialogDelete"
+        :timeout="5000"
+        color="secondaryMedium"
+        dark
+        top
+        transition="fade-transition"
+    >
+        Amigo eliminado correctamente.
+        <template v-slot:action="{ attrs }">
+        <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="dialogDelete = false"
+        >
+            Ok
+        </v-btn>
+        </template>
+    </v-snackbar>
 
     <div v-if="Object.keys(this.contacts).length === 0" class="mt-10 d-flex flex-column align-center">
         <h3 class="text-center">
@@ -43,42 +64,33 @@
                     </v-toolbar-title>
                     <v-spacer></v-spacer>                    
             </template>
-            <template v-slot:item.actions="{ item }">
-                <v-dialog v-model="dialogDelete" max-width="510px">
-                    <v-card>
-                        <v-card-title><h5> ¿Seguro que quieres eliminar a este amigo?</h5></v-card-title>
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="secondary" text @click="closeDelete">Cancelar</v-btn>
-                        <v-btn color="primary" text @click="deleteItemConfirm(item)">OK</v-btn>
-                        <v-spacer></v-spacer>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
-                    <v-btn
-                    icon 
-                    color="red"
-                     @click="openDialogDelete(item)"
-                    >
-                    <v-icon                        
-                        color="primary"                    
-                    >
-                        mdi-trash-can-outline
-                    </v-icon>
-             </v-btn>
-           <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    icon 
-                    color="secondaryLight"
-                    @click="consulttUser(item.id_user)">
-                        <v-icon> mdi-eye</v-icon>
-                    </v-btn>
-                </template>
-                <span>Consultar datos</span>
-            </v-tooltip>
+            <template v-slot:item.actions="{ item }">            
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        icon 
+                        color="secondaryLight"
+                        @click="deleteItemConfirm(item)">
+                            <v-icon color="primary"> mdi-trash-can-outline</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Eliminar amugo</span>
+                </v-tooltip> 
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        icon 
+                        color="secondaryLight"
+                        @click="consulttUser(item.id_user)">
+                            <v-icon> mdi-eye</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Consultar datos</span>
+                </v-tooltip>
             </template>
             <template v-slot:no-data>
                 <span>Aún no tienes contactos.</span>
@@ -98,8 +110,8 @@ import axios from 'axios'
     data: () => ({
         search: "",
         dialog: false,
-        dialogDelete: false,
         forceRender:0,
+        dialogDelete: false,
         headers: [
             {
             text: 'Avatar',
@@ -115,20 +127,21 @@ import axios from 'axios'
         contacts:[]
     }),
     methods: {
-        openDialogDelete(item){
-            this.dialogDelete = true
-        },
         closeDelete(){
             this.dialogDelete = false    
         },
         async deleteItemConfirm(item){
-            await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteContact",
+            let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteContact",
             {
                 "id_contact": item.id_user
             })
+
+            if(response.data.text){
+                this.dialogDelete = true  
+            }
+            let responseContacts = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContacts");
+            this.contacts = responseContacts.data
             
-            // console.log(item.id_user);
-            this.dialogDelete = false  
             this.forceRender += 1
         },
         consulttUser(id){
@@ -137,12 +150,7 @@ import axios from 'axios'
     },
     async beforeMount() {
         let responseContacts = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContacts");
-        // console.log(responseContacts.data);
-        this.contacts = responseContacts.data
-    },
-    async beforeUpdate() {
-        let responseContacts = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContacts");
-        // console.log(responseContacts.data);
+
         this.contacts = responseContacts.data
     }
   }

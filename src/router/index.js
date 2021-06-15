@@ -84,6 +84,11 @@ const routes = [
         path: '/home/searchcontacts',
         name: 'SearchContact',
         component: () => import(/* webpackChunkName: "SearchContact" */ '../views/SearchContacts.vue')
+      },
+      {
+        path: '/home/unauthorized',
+        name: 'Unauthorized',
+        component: () => import(/* webpackChunkName: "SearchContact" */ '../views/Unauthorized.vue')
       }
       
     ]

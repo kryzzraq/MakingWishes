@@ -3,7 +3,7 @@
         <v-container class="mt-xs-8 mt-md-8 d-flex justify-sm-space-around" :key="forceUpdate">
            <v-card
                 class="mx-auto pb-10"
-                min-width="300"
+                min-width="325"
                     width="50%"
             >
                 <div>
@@ -22,25 +22,29 @@
                      <div class="h5">{{contact.email}}</div>
                     </v-card-text>
                 </div>
-                <h4 class="mt-2 ml-6">Disponibles:</h4>
-                <div class="px-8" v-for="wish in wishes" v-bind:key="wish.name"> 
-                        <div v-if="wish.available === 'yes'">
-                            <v-row >
-                                <v-col class="pb-0" cols="6">
-                                    <h4 class="py-1 pb-0">{{wish.name}}</h4>
-                                </v-col>
-                                <v-col  class="pa-0 ma-0" cols="6">
-                                    <v-btn class="mt-2" icon color="primary" @click="selectWish(wish.id_item)" ><v-icon>mdi-gift-open-outline</v-icon></v-btn>
-                                </v-col>
-                            </v-row> 
-                            <v-row class="pl-4 pt-0">
-                                <v-col class="pa-0 ma-0 h5">{{wish.description}}</v-col>    
-                            </v-row> 
-                            <v-row class="pl-4">
-                                <v-col  class="pa-0 ma-0 "><a @click="redirect(wish.link)" class="caption">{{wish.link}}</a>  </v-col>
-                            </v-row>    
-                        </div>
+                <div v-if="Object.keys(this.wishes).length == 0">
+                   <div class="mt-2 pl-6 text-body-2">Este contacto aún no ha añadido ningún deseo.</div>
                 </div>
+                <div v-else>
+                    <h4 class="mt-2 ml-6">Disponibles:</h4>
+                    <div class="px-8" v-for="wish in wishes" v-bind:key="wish.name"> 
+                            <div v-if="wish.available === 'yes'">
+                                <v-row  >
+                                    <v-col class="pb-0" cols="9">
+                                        <h4 class="py-1 pb-0">{{wish.name}}</h4>
+                                    </v-col>
+                                    <v-col  class="pa-0 ma-0" cols="2">
+                                        <v-btn class="mt-2" icon color="primary" @click="selectWish(wish.id_item)" ><v-icon>mdi-gift-open-outline</v-icon></v-btn>
+                                    </v-col>
+                                </v-row> 
+                                <v-row class="pl-4 pt-0">
+                                    <v-col class="pa-0 ma-0 h5">{{wish.description}}</v-col>    
+                                </v-row> 
+                                <v-row class="pl-4">
+                                    <v-col  class="pa-0 ma-0 "><a @click="redirect(wish.link)" class="caption">{{wish.link}}</a>  </v-col>
+                                </v-row>    
+                            </div>
+                    </div>
                     <h4 class="mt-4 ml-6">No disponibles:</h4>
                     <div class="px-8" v-for="wish in wishes" v-bind:key="wish.link"> 
                         <div v-if="wish.available === 'no'">
@@ -54,7 +58,7 @@
                             </v-row>   
                         </div>
                     </div>
-                    
+                </div>                    
             </v-card>
         </v-container>
     </v-container>
@@ -88,7 +92,6 @@ export default {
             })
             this.wishes = responseWishes.data
             this.forceUpdate+=1
-            console.log(response);
         }
     },
     async beforeMount() {
@@ -105,14 +108,6 @@ export default {
             this.wishes = responseWishes.data
         }
     },
-    // async beforeUpdate() {
-    //     let responseWishes = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadContactWishes", {
-    //         "id_contact": this.$router.history.current.params.id
-    //     })
-    //     if (responseWishes.data[0]) {
-    //         this.wishes = responseWishes.data
-    //     }
-    // },
     computed:{
        
     },
@@ -130,7 +125,6 @@ h4, h5 {
 }
 .h5 {
     font-size: 15px;
-    font-weight:300 !important;
-    text-transform: lowercase;
+    font-weight:300 !important
 }
 </style>

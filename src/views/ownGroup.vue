@@ -26,6 +26,24 @@
                 class="mx-auto pb-2"
                 min-width="300"
             >
+            <v-tooltip bottom >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        class="mx-2 delete"
+                        fab
+                        dark                
+                        color="primary"
+                        @click="deleteGroup"
+                        >
+                            <v-icon color="white">
+                                mdi-trash-can-outline
+                            </v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Eliminar grupo</span>
+                </v-tooltip>
                 <div>
                     <v-img
                     class="white--text align-end"
@@ -65,8 +83,8 @@
                                         <span>Eliminar deseo</span>
                                     </v-tooltip>
                             </div> 
-                            <div class="1">
-                                <div class="h5 text-body-2">{{wish.description}}</div>    
+                            <div>
+                                <div class="text-body-2">{{wish.description}}</div>    
                             </div> 
                             <div class="link">
                                 <a @click="redirect(wish.link)" class="caption">{{wish.link}}</a>
@@ -208,10 +226,11 @@
                             <v-container>
                                 <h4 class="text-center mt-4" v-if="Object.keys(this.noMembers).length === 0">No tienes más amigos a los que añadir al grupo</h4>
                                <div v-for="user in noMembers" v-bind:key="user.id_user" class="d-flex justify-space-between users">
-                                   <div class="h5 text-body-2 py-2">{{user.name}} {{user.last_name_1}} {{user.last_name_2}} </div>
+                                   <div class=" text-button py-2 ml-16">{{user.name}} {{user.last_name_1}} {{user.last_name_2}} </div>
                                    <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
+                                        class="mr-16"
                                         v-bind="attrs"
                                         v-on="on"
                                         icon 
@@ -275,6 +294,14 @@ export default {
         }
     },
     async beforeMount(){
+        let owner = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/checkOwnership",
+        {
+            "id_group":this.$router.history.current.params.id
+        })
+        if (owner.data.error) {
+            this.$router.push("/home/unauthorized")  
+        }
+
         let responseGroup = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadOwnGroup",
         {
             "id_group":this.$router.history.current.params.id
@@ -355,6 +382,13 @@ export default {
                 this.wrongData = true
             }
         },
+        async deleteGroup(){
+            let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteGroup",
+            {
+                "id_group": this.actualGroup.id_group
+            })
+            this.$router.push("/home/groups")
+        },
         redirect(url) {
             window.open('http://'+url, '_blank');
         },
@@ -381,7 +415,6 @@ export default {
                 {
                     "id_group":this.$router.history.current.params.id
                 })
-                console.log(responseNoMembers);
                         
                 if (responseNoMembers.data) {
                     this.noMembers = responseNoMembers.data
@@ -480,5 +513,11 @@ h5{
 }
 .caption{
     line-height: 1;
+}
+.delete{
+    position: absolute;
+    z-index: 1;
+    right: 10px;
+    top: 10px;
 }
 </style>
