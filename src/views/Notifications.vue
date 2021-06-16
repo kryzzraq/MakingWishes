@@ -62,7 +62,7 @@
                 </div>
             </div>
             <h3 class="pt-4">Notificaciones de grupos:</h3>
-            <div v-if="Object.keys(this.notificationsGroup).length === 0">
+            <div v-if="Object.keys(this.notificationsGroup).length === 0" class="ml-4">
                 No tienes notificaciones de grupos pendientes
             </div>
             <div v-else v-for="notif in notificationsGroup" :key="notif.id_notif" class="ml-4">

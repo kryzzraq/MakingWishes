@@ -101,6 +101,17 @@
                       {{item.index}}
                     </v-btn>
                     </div>
+                    <div v-if="user.rol === 'admin'">
+                    <v-divider class="my-3"></v-divider>
+                      <v-btn
+                        depressed
+                        rounded
+                        text
+                        @click="$router.push('/home/admin')"
+                      >
+                        Administrar sistema
+                      </v-btn>
+                    </div>
                     <v-divider class="my-3"></v-divider>
                     <v-btn
                       depressed
@@ -168,6 +179,10 @@
                 <v-list-item-title >{{item.index}}</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
+            <v-list-item @click="$router.push('/home/admin')" v-if="user.rol === 'admin'">
+                <v-icon size="20px" class="pa-3 grey--text text--darken-3">mdi-cog-outline</v-icon>
+                <v-list-item-title>Administrar sistema</v-list-item-title>
+            </v-list-item>
             <v-text-field
                   rounded outlined
                   dense
@@ -269,7 +284,7 @@
               submenu:[
                 {
                   index: "Configuración de la cuenta",
-                  icon: "cog-outline",
+                  icon: "account-cog-outline",
                   path: "/home/config"
                 },
                 {

@@ -88,7 +88,32 @@ const routes = [
       {
         path: '/home/unauthorized',
         name: 'Unauthorized',
-        component: () => import(/* webpackChunkName: "SearchContact" */ '../views/Unauthorized.vue')
+        component: () => import(/* webpackChunkName: "Unauthorized" */ '../views/Unauthorized.vue')
+      },
+      {
+        path: '/home/admin',
+        name: 'Admin',
+        component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue')
+      },
+      {
+        path: '/home/admin/groups',
+        name: 'AdminGroups',
+        component: () => import(/* webpackChunkName: "AdminGroups" */ '../views/AdminGroups.vue')
+      },
+      {
+        path: '/home/admin/users',
+        name: 'AdminUsers',
+        component: () => import(/* webpackChunkName: "AdminUsers" */ '../views/AdminUsers.vue')
+      },
+      {
+        path: '/home/admin/user/:id',
+        name: 'AdminUser',
+        component: () => import(/* webpackChunkName: "AdminUser" */ '../views/AdminUser.vue')
+      },
+      {
+        path: '/home/admin/group/:id',
+        name: 'AdminGroup',
+        component: () => import(/* webpackChunkName: "AdminGroup" */ '../views/AdminGroup.vue')
       }
       
     ]

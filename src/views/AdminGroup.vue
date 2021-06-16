@@ -5,6 +5,24 @@
                 class="mx-auto pb-2"
                 min-width="300"
             >
+            <v-tooltip bottom >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        class="mx-2 delete"
+                        fab
+                        dark                
+                        color="primary"
+                        @click="deleteGroup"
+                        >
+                            <v-icon color="white">
+                                mdi-trash-can-outline
+                            </v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Eliminar grupo</span>
+                </v-tooltip>
                 <div>
                     <v-img
                     class="white--text align-end"
@@ -31,9 +49,6 @@
                             <div class="d-flex">
                                 <div class="d-flex align-center name" >
                                     <h5 >{{wish.name}}</h5>
-                                </div>
-                                <div  class="d-flex align-end">
-                                    <v-btn icon  @click="selectWish(wish.id_item)" ><v-icon color="primary">mdi-gift-open-outline</v-icon></v-btn>
                                 </div>
                             </div> 
                             <div class="1">
@@ -97,88 +112,67 @@ export default {
         }
     },
     async beforeMount(){
-        let checkMembership = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/checkGroup",
+        if(this.user.rol!=='admin'){
+            this.$router.push("/home/unauthorized")
+        }
+
+        let responseGroup = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadInfoGroup",
+        {
+            "id_group":this.$router.history.current.params.id
+        })
+        
+        if (responseGroup.data[0]) {
+            this.actualGroup = responseGroup.data[0]
+        }
+
+        let responseWishes = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupWishes",
         {
             "id_group":this.$router.history.current.params.id
         })
 
-        if (checkMembership.data.text) {
-            let responseGroup = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadInfoGroup",
-            {
-                "id_group":this.$router.history.current.params.id
-            })
-            
-            if (responseGroup.data[0]) {
-                this.actualGroup = responseGroup.data[0]
-            }
-    
-            let responseWishes = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupWishes",
-            {
-                "id_group":this.$router.history.current.params.id
-            })
-    
-            if (responseWishes.data[0]) {
-                this.wishes = responseWishes.data
-            }
-    
-            let responseMembers = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupUsers",
-            {
-                "id_group":this.$router.history.current.params.id
-            })
-            
-            if (responseMembers.data[0]) {
-                this.members = responseMembers.data
-            }
-        } else {
-            this.$router.push("/home/unauthorized")
+        if (responseWishes.data[0]) {
+            this.wishes = responseWishes.data
         }
-        
 
+        let responseMembers = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupUsers",
+        {
+            "id_group":this.$router.history.current.params.id
+        })
+        
+        if (responseMembers.data[0]) {
+            this.members = responseMembers.data
+        }
 
     },
     methods: {
-        async selectWish(id){
-            await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/selectWish",{
-                "id_item":id
-            })
-            let responseWishes = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadGroupWishes",
+       async deleteGroup(){
+            let response = await axios.post (process.env.VUE_APP_SERVER_TOTAL_PATH+"/deleteGroup",
             {
-                "id_group":this.$router.history.current.params.id
+                "id_group": this.$router.history.current.params.id
             })
-
-            if (responseWishes.data) {
-                this.wishes = responseWishes.data
-            }
-            this.forceRender +=1
+            this.$router.push("/home/admin/groups")
         }
     },
     computed:{
-        ...mapState(['contacts'])
+        ...mapState(['contacts','user'])
     },
 }
 </script>
 
 <style scoped>
-h2, h3{
+h2, h3, h4, h5{
     letter-spacing: 0.1rem;
-    font-weight: 400;
-    text-transform: uppercase;
-}
-h4, h5{
-    letter-spacing: 1px;
     font-weight: 400;
     text-transform: uppercase;
 }
 h5{
     font-size: 0.9rem;
-    margin-top: 5px;
+
 }
-.name{
-    min-width: 50%;
-}
-.h5 {
-    font-size: 15px;
-    font-weight:300 !important;
-    text-transform: capitalize;
+.delete{
+    position: absolute;
+    z-index: 1;
+    right: 10px;
+    top: 10px;
 }
 </style>

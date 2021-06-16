@@ -84,7 +84,7 @@
                                     </v-tooltip>
                             </div> 
                             <div>
-                                <div class="text-body-2">{{wish.description}}</div>    
+                                <div class="h52 text-body-2">{{wish.description}}</div>    
                             </div> 
                             <div class="link">
                                 <a @click="redirect(wish.link)" class="caption">{{wish.link}}</a>
@@ -495,6 +495,9 @@ h5{
     font-size: 15px;
     font-weight:300 !important;
     text-transform: capitalize;
+}.h52{
+    font-size: 15px;
+    font-weight:300 !important;
 }
 .title{
     background-color: #F50057;
