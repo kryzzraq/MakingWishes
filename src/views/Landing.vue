@@ -58,41 +58,41 @@
       <div class="d-flex justify-space-around alig-self-end flex-wrap">
          <v-sheet
           align="center"
-          class="text-center mb-8 mb-sm-4"
+          class="text-center mb-8 mb-sm-4 d-flex flex-column justify-center"
           min-height="200px"
           max-width="200px"
           rounded="circle"
           min-width="200px"
           color="rgba(255,255,255,0.7)"
         >
-          <v-icon size="110px" class="pa-3 grey--text text--darken-3"
+          <v-icon size="70px" class="pa-3 pt-0 grey--text text--darken-3"
             >mdi-gift-open-outline</v-icon
           >
           <div class="overline">Elige tus regalos</div>
         </v-sheet>
 
          <v-card
-          class="text-center mb-8 mb-sm-4"
+          class="text-center mb-8 mb-sm-4 d-flex flex-column justify-center"
           min-height="200px"
           max-width="200px"
           rounded="circle"
           min-width="200px"
           color="rgba(255,255,255,0.7)"
         >
-          <v-icon size="120px" class="pa-2 ml-2 grey--text text--darken-3"
+          <v-icon size="80px" class="pa-2 pt-0 ml-2 grey--text text--darken-3"
             >mdi-thought-bubble-outline</v-icon
           >
           <div class="overline">Acierta siempre</div>
         </v-card>
         <v-card
-          class="text-center mb-4"
+          class="text-center mb-4 "
           min-height="200px"
           max-width="200px"
           rounded="circle"
           min-width="200px"
           color="rgba(255,255,255,0.7)"
         >
-          <v-icon size="120px" class="grey--text text--darken-3"
+          <v-icon size="80px" class=" mt-5 grey--text text--darken-3"
             >mdi-account-group-outline</v-icon
           >
           <div

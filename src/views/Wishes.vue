@@ -63,8 +63,8 @@
             >
                 <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
 
-                <v-card-subtitle class="text-uppercase py-0">{{item.description}}</v-card-subtitle>
-                <v-card-subtitle class="text-lowercase caption py-0">{{item.link}}</v-card-subtitle>
+                <v-card-subtitle class="py-0">{{item.description}}</v-card-subtitle>
+                <v-card-subtitle class="text-lowercase caption py-0 pt-4"><a class="text-white">{{item.link}}</a></v-card-subtitle>
 
                 <v-card-actions>
                     <v-tooltip bottom>
@@ -96,8 +96,8 @@
             >
                 <v-card-title class="text-uppercase">{{item.name}}</v-card-title>
 
-                <v-card-subtitle class="text-uppercase">{{item.description}}</v-card-subtitle>
-                <v-card-subtitle class="text-lowercase caption py-0">{{item.link}}</v-card-subtitle>
+                <v-card-subtitle>{{item.description}}</v-card-subtitle>
+                <v-card-subtitle class="text-lowercase caption py-0"><a>{{item.link}}</a></v-card-subtitle>
 
                 <v-card-actions>
                 </v-card-actions>
@@ -125,7 +125,7 @@
             </v-expansion-panels>
 
         </v-container>
-        <v-container class="form d-flex justify-center">
+        <v-container class="d-flex justify-center">
             <v-card width="100%" min-width="300px" elevation="10" color="secondaryLight">
                 <v-card-text>
                     <span class="white--text">Nombre del deseo:</span>
@@ -159,10 +159,9 @@
                         solo dense
                     ></v-text-field>
                 </v-card-text>
-                <v-card-text class="d-flex justify-space-between">
-
+                <v-card-text class="d-flex justify-end">
+                    <v-btn @click="cleanData" text color="white" class="mr-2">Limpiar</v-btn>
                     <v-btn @click="createNewWish" color="primary">Enviar</v-btn>
-                    <v-btn @click="cleanData">Limpiar</v-btn>
                 </v-card-text>
             </v-card>
         </v-container>
@@ -289,5 +288,11 @@ h3, h4 {
 .err{
     color: black;
     font-size: 11px;
+}
+.v-application a {
+    color: #FFFFFF90 !important;
+}
+.container {
+    height: inherit !important;
 }
 </style>

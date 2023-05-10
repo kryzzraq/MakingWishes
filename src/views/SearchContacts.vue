@@ -77,7 +77,8 @@ export default {
     methods: {
         async addUser(id){
             let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/sendFriendship", {
-                "id_user_notif": id
+                "id_user_notif": id,
+                "my_id": this.$store.state.user.id_user
             })
             this.forceUpdate +=1
         }
@@ -89,17 +90,13 @@ export default {
         if (response.data[0]) {
             this.actualSearchUsers = response.data
         }
-    },
-    async beforeUpdate() {
-        let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadAllContacts", {
+
+        let response2 = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadAllContacts", {
             "search": this.$store.state.actualSearch
         })
-        if (response.data) {
-            this.actualSearchUsers = response.data
+        if (response2.data) {
+            this.actualSearchUsers = response2.data
         }
-    },
-    computed:{
-       
     },
 }
 </script>

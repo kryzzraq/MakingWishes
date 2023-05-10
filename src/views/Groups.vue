@@ -100,7 +100,7 @@ export default {
     computed:{
         ...mapState(['groups'])
     },
-    async beforeUpdate(){
+    async beforeMount(){
         let responseOwnGroups = await axios.get(process.env.VUE_APP_SERVER_TOTAL_PATH+"/loadOwnGroups");
         this.ownGroups = responseOwnGroups.data
 
