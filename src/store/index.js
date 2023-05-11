@@ -19,12 +19,12 @@ export default new Vuex.Store({
 
     },
     contacts: {
-      
+
     },
     actualSearch: ""
   },
   mutations: {
-    mutLogin(state,obj){
+    mutLogin(state, obj) {
       this.state.user = obj
     },
     mutLoadWishes(state, obj) {
@@ -44,22 +44,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    actLogin({commit},obj){
-      commit('mutLogin',obj)
+    actLogin({ commit }, obj) {
+      commit('mutLogin', obj)
     },
-    actLoadWishes({commit}, obj){
+    actLoadWishes({ commit }, obj) {
       commit('mutLoadWishes', obj)
     },
-    actLoadOwnGroups({commit}, obj) {
+    actLoadOwnGroups({ commit }, obj) {
       commit('mutLoadOwnGroups', obj)
     },
-    actLoadGroups({commit}, obj) {
+    actLoadGroups({ commit }, obj) {
       commit('mutLoadGroups', obj)
     },
-    actLoadContacts({commit}, obj) {
+    actLoadContacts({ commit }, obj) {
       commit('mutLoadContacts', obj)
     },
-    actSearchContacts({commit}, string) {
+    actSearchContacts({ commit }, string) {
       commit('mutSearchContacts', string)
     }
   },

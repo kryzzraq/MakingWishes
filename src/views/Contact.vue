@@ -42,7 +42,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
                         v-bind="attrs"
-                        v-on="on"                        
+                        v-on="on"
                         dark
                         class="mt-2"
                         icon
@@ -121,31 +121,33 @@ export default {
     },
   },
   async beforeMount() {
-      let checkFriend = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH + "/checkFriendship",
+    let checkFriend = await axios.post(
+      process.env.VUE_APP_SERVER_TOTAL_PATH + "/checkFriendship",
       {
         id_user: this.$router.history.current.params.id,
       }
     );
     if (checkFriend.data.text) {
-        let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH + "/loadContact",
-          {
-            id_contact: this.$router.history.current.params.id,
-          }
-        );
-        if (response.data[0]) {
-          this.contact = response.data[0];
+      let response = await axios.post(
+        process.env.VUE_APP_SERVER_TOTAL_PATH + "/loadContact",
+        {
+          id_contact: this.$router.history.current.params.id,
         }
-        let responseWishes = await axios.post(
-          process.env.VUE_APP_SERVER_TOTAL_PATH + "/loadContactWishes",
-          {
-            id_contact: this.$router.history.current.params.id,
-          }
-        );
-        if (responseWishes.data[0]) {
-          this.wishes = responseWishes.data;
+      );
+      if (response.data[0]) {
+        this.contact = response.data[0];
+      }
+      let responseWishes = await axios.post(
+        process.env.VUE_APP_SERVER_TOTAL_PATH + "/loadContactWishes",
+        {
+          id_contact: this.$router.history.current.params.id,
         }
+      );
+      if (responseWishes.data[0]) {
+        this.wishes = responseWishes.data;
+      }
     } else {
-        this.$router.push("/home/unauthorized")
+      this.$router.push("/home/unauthorized");
     }
   },
   computed: {},

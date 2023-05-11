@@ -16,9 +16,13 @@
                 ></v-img>
               </router-link>
               <div>
-                <div class="err ml-1" >
-                  <div v-if="$v.user.name.$dirty && !$v.user.name.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.name.$dirty && !$v.user.name.regexName">Este campo sólo admite caracteres alfabéticos.</div>
+                <div class="err ml-1">
+                  <div v-if="$v.user.name.$dirty && !$v.user.name.required">
+                    Este campo es requerido.
+                  </div>
+                  <div v-if="$v.user.name.$dirty && !$v.user.name.regexName">
+                    Este campo sólo admite caracteres alfabéticos.
+                  </div>
                 </div>
                 <v-text-field
                   placeholder="Nombre"
@@ -30,9 +34,22 @@
                 ></v-text-field>
               </div>
               <div>
-                <div class="err ml-1" >
-                  <div v-if="$v.user.lastName1.$dirty && !$v.user.lastName1.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.lastName1.$dirty && !$v.user.lastName1.regexLastName">Este campo sólo admite caracteres alfabéticos.</div>
+                <div class="err ml-1">
+                  <div
+                    v-if="
+                      $v.user.lastName1.$dirty && !$v.user.lastName1.required
+                    "
+                  >
+                    Este campo es requerido.
+                  </div>
+                  <div
+                    v-if="
+                      $v.user.lastName1.$dirty &&
+                      !$v.user.lastName1.regexLastName
+                    "
+                  >
+                    Este campo sólo admite caracteres alfabéticos.
+                  </div>
                 </div>
                 <v-text-field
                   placeholder="Primer apellido"
@@ -41,9 +58,22 @@
                   dense
                   v-model.trim="$v.user.lastName1.$model"
                 ></v-text-field>
-                <div class="err ml-1" >
-                  <div v-if="$v.user.lastName2.$dirty && !$v.user.lastName2.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.lastName2.$dirty && !$v.user.lastName2.regexLastName">Este campo sólo admite caracteres alfabéticos.</div>
+                <div class="err ml-1">
+                  <div
+                    v-if="
+                      $v.user.lastName2.$dirty && !$v.user.lastName2.required
+                    "
+                  >
+                    Este campo es requerido.
+                  </div>
+                  <div
+                    v-if="
+                      $v.user.lastName2.$dirty &&
+                      !$v.user.lastName2.regexLastName
+                    "
+                  >
+                    Este campo sólo admite caracteres alfabéticos.
+                  </div>
                 </div>
                 <v-text-field
                   placeholder="Segundo apellido"
@@ -52,12 +82,15 @@
                   dense
                   v-model.trim="$v.user.lastName2.$model"
                 ></v-text-field>
-
               </div>
               <div>
-                <div class="err ml-1" >
-                  <div v-if="$v.user.email.$dirty && !$v.user.email.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.email.$dirty && !$v.user.email.email">El email no es válido.</div>
+                <div class="err ml-1">
+                  <div v-if="$v.user.email.$dirty && !$v.user.email.required">
+                    Este campo es requerido.
+                  </div>
+                  <div v-if="$v.user.email.$dirty && !$v.user.email.email">
+                    El email no es válido.
+                  </div>
                 </div>
                 <v-text-field
                   placeholder="Correo electrónico"
@@ -68,9 +101,23 @@
                 ></v-text-field>
               </div>
               <div>
-                <div class="err ml-1" >
-                  <div v-if="$v.user.password.password.$dirty && !$v.user.password.password.required">Este campo es requerido.</div>
-                  <div v-if="$v.user.password.password.$dirty && !$v.user.password.password.minLength">Mínimo 8 caracteres.</div>
+                <div class="err ml-1">
+                  <div
+                    v-if="
+                      $v.user.password.password.$dirty &&
+                      !$v.user.password.password.required
+                    "
+                  >
+                    Este campo es requerido.
+                  </div>
+                  <div
+                    v-if="
+                      $v.user.password.password.$dirty &&
+                      !$v.user.password.password.minLength
+                    "
+                  >
+                    Mínimo 8 caracteres.
+                  </div>
                 </div>
                 <v-text-field
                   solo
@@ -84,9 +131,16 @@
                   required
                 ></v-text-field>
               </div>
-               <div>
-                <div class="err ml-1" >
-                  <div v-if="$v.user.password.confirm.$dirty && !$v.user.password.confirm.sameAsPassword">Las contraseñas no coinciden.</div>
+              <div>
+                <div class="err ml-1">
+                  <div
+                    v-if="
+                      $v.user.password.confirm.$dirty &&
+                      !$v.user.password.confirm.sameAsPassword
+                    "
+                  >
+                    Las contraseñas no coinciden.
+                  </div>
                 </div>
                 <v-text-field
                   solo
@@ -99,7 +153,7 @@
                   @click:append="show1 = !show1"
                   v-model.trim="$v.user.password.confirm.$model"
                   required
-                ></v-text-field>                      
+                ></v-text-field>
               </div>
               <div>
                 <v-file-input
@@ -112,8 +166,13 @@
                   placeholder="Selecciona una foto (Opcional)"
                 ></v-file-input>
               </div>
-              <v-btn block  color="primary" @click="submitForm" :disabled="$v.$invalid"
-                >Registrarse</v-btn>
+              <v-btn
+                block
+                color="primary"
+                @click="submitForm"
+                :disabled="$v.$invalid"
+                >Registrarse</v-btn
+              >
             </v-card-text>
           </v-layout>
         </v-container>
@@ -124,10 +183,19 @@
 
 <script>
 // @ is an alias to /src
-import axios from 'axios'
-import { required, email, sameAs, minLength, helpers} from "vuelidate/lib/validators";
-const regexName = helpers.regex('regexName', /(^[a-záéíóúñ]+)([a-z áéíóúñ]+)?$/i);
-const regexLastName = helpers.regex('regexLastName',/(^[a-záéíóúñ]+)?$/i);
+import axios from "axios";
+import {
+  required,
+  email,
+  sameAs,
+  minLength,
+  helpers,
+} from "vuelidate/lib/validators";
+const regexName = helpers.regex(
+  "regexName",
+  /(^[a-záéíóúñ]+)([a-z áéíóúñ]+)?$/i
+);
+const regexLastName = helpers.regex("regexLastName", /(^[a-záéíóúñ]+)?$/i);
 
 export default {
   name: "SignIn",
@@ -138,13 +206,13 @@ export default {
       show1: false,
       user: {
         avatar: [],
-        name: '',
-        lastName1: '',
-        lastName2: '',
-        email: '',
+        name: "",
+        lastName1: "",
+        lastName2: "",
+        email: "",
         password: {
-          password: '',
-          confirm: '',
+          password: "",
+          confirm: "",
         },
       },
     };
@@ -152,26 +220,29 @@ export default {
   methods: {
     async submitForm(e) {
       let fd = new FormData();
-      let files = document.getElementById('avatar').files[0];
+      let files = document.getElementById("avatar").files[0];
 
-      let encryptedPassword = this.CryptoJS.SHA256(this.user.password.password)    
-      let newPass = encryptedPassword.toString(this.CryptoJS.enc.Base64)
+      let encryptedPassword = this.CryptoJS.SHA256(this.user.password.password);
+      let newPass = encryptedPassword.toString(this.CryptoJS.enc.Base64);
 
-      let encryptedPassword1 = this.CryptoJS.SHA256(this.user.password.confirm)    
-      let newPass1 = encryptedPassword1.toString(this.CryptoJS.enc.Base64)
+      let encryptedPassword1 = this.CryptoJS.SHA256(this.user.password.confirm);
+      let newPass1 = encryptedPassword1.toString(this.CryptoJS.enc.Base64);
 
-      fd.append('image',files);
-      fd.append('name',this.user.name);
-      fd.append('last_name_1',this.user.lastName1);
-      fd.append('last_name_2',this.user.lastName2);
-      fd.append('email',this.user.email);
-      fd.append('password1',newPass);
-      fd.append('password2',newPass1);
+      fd.append("image", files);
+      fd.append("name", this.user.name);
+      fd.append("last_name_1", this.user.lastName1);
+      fd.append("last_name_2", this.user.lastName2);
+      fd.append("email", this.user.email);
+      fd.append("password1", newPass);
+      fd.append("password2", newPass1);
 
-      let response = await axios.post(process.env.VUE_APP_SERVER_TOTAL_PATH+"/signin", fd)
-    
-      if(response.data.text) {
-        this.$router.push("/")
+      let response = await axios.post(
+        process.env.VUE_APP_SERVER_TOTAL_PATH + "/signin",
+        fd
+      );
+
+      if (response.data.text) {
+        this.$router.push("/");
       }
     },
   },
@@ -179,33 +250,32 @@ export default {
     user: {
       name: {
         required,
-        regexName
-      }, 
+        regexName,
+      },
       lastName1: {
         required,
-        regexLastName
+        regexLastName,
       },
       lastName2: {
         required,
-        regexLastName
+        regexLastName,
       },
       email: {
         required,
-        email
+        email,
       },
       password: {
         password: {
           required,
-          minLength: minLength(8)
+          minLength: minLength(8),
         },
         confirm: {
-          sameAsPassword: sameAs('password')
-        }
-      }
-    }
+          sameAsPassword: sameAs("password"),
+        },
+      },
+    },
   },
-  mounted(){
-  }
+  mounted() {},
 };
 </script>
 <style>

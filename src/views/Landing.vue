@@ -1,7 +1,10 @@
 <template>
-  <v-container fluid class="landingHome pa-0 d-flex flex-column justify-space-between">
+  <v-container
+    fluid
+    class="landingHome pa-0 d-flex flex-column justify-space-between"
+  >
     <div class="d-flex flex-column contain justify-space-around">
-      <div class=" align-self-end">
+      <div class="align-self-end">
         <v-btn
           large
           color="primary"
@@ -30,7 +33,7 @@
       <div class="d-flex justify-center pb-16">
         <v-sheet
           color="rgb(255,255,255,0.7)"
-          class="pa-5 rounded-lg "
+          class="pa-5 rounded-lg"
           max-width="55%"
           min-width="300px"
         >
@@ -56,7 +59,7 @@
         </v-sheet>
       </div>
       <div class="d-flex justify-space-around alig-self-end flex-wrap">
-         <v-sheet
+        <v-sheet
           align="center"
           class="text-center mb-8 mb-sm-4 d-flex flex-column justify-center"
           min-height="200px"
@@ -71,7 +74,7 @@
           <div class="overline">Elige tus regalos</div>
         </v-sheet>
 
-         <v-card
+        <v-card
           class="text-center mb-8 mb-sm-4 d-flex flex-column justify-center"
           min-height="200px"
           max-width="200px"
@@ -85,20 +88,17 @@
           <div class="overline">Acierta siempre</div>
         </v-card>
         <v-card
-          class="text-center mb-4 "
+          class="text-center mb-4"
           min-height="200px"
           max-width="200px"
           rounded="circle"
           min-width="200px"
           color="rgba(255,255,255,0.7)"
         >
-          <v-icon size="80px" class=" mt-5 grey--text text--darken-3"
+          <v-icon size="80px" class="mt-5 grey--text text--darken-3"
             >mdi-account-group-outline</v-icon
           >
-          <div
-            class="text-center overline"
-            style="width: 180px; margin: auto"
-          >
+          <div class="text-center overline" style="width: 180px; margin: auto">
             Conecta con tus amigos
           </div>
         </v-card>
@@ -112,9 +112,7 @@
 
 export default {
   name: "Landing",
-  components: {
-    
-  },
+  components: {},
   data() {
     return {};
   },
@@ -140,7 +138,7 @@ html {
   height: 100%;
   min-height: 100%;
 }
-.contain{
+.contain {
   height: 100%;
 }
 </style>

@@ -15,14 +15,18 @@
             detalle.
           </p>
           <div class="txt d-flex justify-end">
-              <v-btn class="white--text" color="primaryLight" to="/home/wishes">Ver mi lista</v-btn>
+            <v-btn class="white--text" color="primaryLight" to="/home/wishes"
+              >Ver mi lista</v-btn
+            >
           </div>
         </div>
       </div>
       <v-divider class="primaryLight"></v-divider>
       <div class="d-flex justify-center flex-column py-16">
         <div>
-          <h2 class="text-center text--secondary">Junta a todos tus contactos</h2>
+          <h2 class="text-center text--secondary">
+            Junta a todos tus contactos
+          </h2>
         </div>
         <div class="pt-6 d-flex flex-wrap parr-txt justify-center">
           <div class="item mx-10 mt-3">
@@ -39,8 +43,8 @@
             <p>
               ¿Tu mejor amigo se casa? Ahora él podrá crear una lista de deseos
               e incluir en ella a sus invitados. De esta manera todos los
-              invitados estarán al día de los regalos que necesita y de esta manera
-              nadie repetirá ningún regalo.
+              invitados estarán al día de los regalos que necesita y de esta
+              manera nadie repetirá ningún regalo.
             </p>
           </div>
         </div>
@@ -57,7 +61,9 @@
           ¡Acertar siempre!
         </p>
         <div class="txt d-flex justify-end">
-              <v-btn class="white--text" color="primaryLight" to="/home/contacts">Ver mis contactos</v-btn>
+          <v-btn class="white--text" color="primaryLight" to="/home/contacts"
+            >Ver mis contactos</v-btn
+          >
         </div>
       </div>
     </div>

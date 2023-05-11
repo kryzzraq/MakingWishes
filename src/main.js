@@ -7,22 +7,22 @@ import Vuelidate from "vuelidate"
 import axios from "axios";
 import VueCryptojs from 'vue-cryptojs'
 
-axios.interceptors.request.use(function(config) {
+axios.interceptors.request.use(function (config) {
   if (localStorage.token) {
     const auth_token = localStorage.getItem('token');
     config.headers.Authorization = auth_token;
   }
   return config;
-}, function(err) {
+}, function (err) {
   return Promise.reject(err);
 });
 
 axios.interceptors.response.use(function (response) {
   // rango 200
   return response;
-},function (error) {
-  
-  return Promise.reject(error); 
+}, function (error) {
+
+  return Promise.reject(error);
 });
 
 

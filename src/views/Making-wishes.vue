@@ -56,10 +56,9 @@
                 <v-avatar color="white">
                   <img
                     :src="user.image"
-                        alt="profile-avatar"
+                    alt="profile-avatar"
                     class="profile-avatar"
                   />
-          
                 </v-avatar>
                 <v-icon size="30px" class="grey--text text--darken-3 mb-0"
                   >mdi-menu-down

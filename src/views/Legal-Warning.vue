@@ -301,19 +301,32 @@
             </p>
             <ul class="ml-2">
               <li>
-                <a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-que-los-sitios-we" >Firefox desde aquí.</a >
+                <a
+                  href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-que-los-sitios-we"
+                  >Firefox desde aquí.</a
+                >
               </li>
               <li>
-                <a href="http://support.google.com/chrome/bin/answer.py?hl=es&answer=95647">Chrome desde aquí.</a>
+                <a
+                  href="http://support.google.com/chrome/bin/answer.py?hl=es&answer=95647"
+                  >Chrome desde aquí.</a
+                >
               </li>
               <li>
-                <a href="https://support.microsoft.com/es-es/topic/c%C3%B3mo-eliminar-archivos-de-cookies-en-internet-explorer-bca9446f-d873-78de-77ba-d42645fa52fc">Explorer desde aquí.</a>
+                <a
+                  href="https://support.microsoft.com/es-es/topic/c%C3%B3mo-eliminar-archivos-de-cookies-en-internet-explorer-bca9446f-d873-78de-77ba-d42645fa52fc"
+                  >Explorer desde aquí.</a
+                >
               </li>
               <li>
-                <a href="http://support.apple.com/kb/ph5042">Safari desde aquí. </a>
+                <a href="http://support.apple.com/kb/ph5042"
+                  >Safari desde aquí.
+                </a>
               </li>
               <li>
-                <a href="http://help.opera.com/Windows/11.50/es-ES/cookies.html">Opera desde aquí.</a>
+                <a href="http://help.opera.com/Windows/11.50/es-ES/cookies.html"
+                  >Opera desde aquí.</a
+                >
               </li>
             </ul>
           </div>

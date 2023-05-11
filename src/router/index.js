@@ -115,7 +115,7 @@ const routes = [
         name: 'AdminGroup',
         component: () => import(/* webpackChunkName: "AdminGroup" */ '../views/AdminGroup.vue')
       }
-      
+
     ]
   }
 ]
